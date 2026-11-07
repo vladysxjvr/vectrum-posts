@@ -19,15 +19,24 @@
   <fieldset class="panel" id="controls">
     <section>
       <h2>Текст</h2>
-      <div class="field-head">
-        <label id="h1-label">Главный заголовок (H1)</label>
-        <button type="button" class="chip" id="accent">Сделать синим</button>
+      <div class="toolbar" id="toolbar" role="toolbar" aria-label="Форматирование текста">
+        <button type="button" class="tool" id="fmt-bold" aria-pressed="false" title="Жирный или нежирный" aria-label="Жирный"><b>Ж</b></button>
+        <button type="button" class="tool" id="fmt-italic" aria-pressed="false" title="Курсив" aria-label="Курсив"><i>К</i></button>
+        <button type="button" class="tool" id="fmt-upper" aria-pressed="false" title="ПРОПИСНЫЕ буквы" aria-label="Прописные буквы">АА</button>
+        <div class="pop-wrap">
+          <button type="button" class="tool" id="brand-btn" aria-expanded="false" aria-controls="brand-pop">Фирменные цвета</button>
+          <div class="pop" id="brand-pop" hidden></div>
+        </div>
+        <label class="tool palette">Палитра<input type="color" id="custom-color" value="#4d76f7"></label>
+        <button type="button" class="tool" id="fmt-clear" title="Вернуть стиль по умолчанию">Сбросить</button>
       </div>
-      <div id="h1" class="input editable" contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-labelledby="h1-label" spellcheck="false"></div>
-      <p class="hint" id="accent-hint">Выдели слово мышкой и нажми «Сделать синим». Enter переносит строку.</p>
+      <p class="hint">Выдели слова и выбери стиль. Если ничего не выделено, стиль применится ко всему полю. Enter переносит строку.</p>
 
-      <label for="h2">Подзаголовок (H2)</label>
-      <textarea id="h2" class="input" rows="2" spellcheck="false"></textarea>
+      <label id="h1-label">Главный заголовок (H1)</label>
+      <div id="h1" class="input editable" contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-labelledby="h1-label" spellcheck="false"></div>
+
+      <label id="h2-label">Подзаголовок (H2)</label>
+      <div id="h2" class="input editable" contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-labelledby="h2-label" spellcheck="false"></div>
 
       <p class="warn" id="overflow" hidden>Текст слишком длинный и не помещается даже в самом мелком размере. Сократи его, иначе он выйдет за безопасную зону.</p>
 
@@ -48,7 +57,7 @@
         <button type="button" class="btn" id="pick">Выбрать картинку или видео</button>
         <button type="button" class="btn ghost" id="clear" hidden>Убрать</button>
       </div>
-      <p class="hint" id="bg-name">Сейчас фирменный фон. Звук из видео в файл не попадает.</p>
+      <p class="hint" id="bg-name">Сейчас фирменный фон.</p>
       <p class="warn" id="bg-error" hidden></p>
 
       <div id="bg-options" hidden>
@@ -63,13 +72,25 @@
       </div>
     </section>
 
+    <section>
+      <h2>Звук</h2>
+      <input type="file" id="audio-file" accept="audio/*,.mp3,.m4a,.aac,.wav,.ogg,.flac" hidden>
+      <div class="bg-pick">
+        <button type="button" class="btn" id="audio-pick">Выбрать мелодию</button>
+        <button type="button" class="btn ghost" id="audio-clear" hidden>Убрать</button>
+        <button type="button" class="btn sound" id="mute" aria-pressed="true" disabled>Без звука</button>
+      </div>
+      <p class="hint" id="audio-name">Звука пока нет. Загрузи мелодию или видео со звуком.</p>
+      <p class="warn" id="audio-error" hidden></p>
+    </section>
+
     <section class="save">
       <h2>Скачать</h2>
       <div class="bg-pick">
         <button type="button" class="btn primary" id="mp4">Скачать MP4</button>
         <button type="button" class="btn" id="png">Скачать PNG</button>
       </div>
-      <p class="hint" id="save-hint">MP4: один цикл 10 секунд, без звука. PNG: кадр, который сейчас на превью.</p>
+      <p class="hint" id="save-hint"></p>
     </section>
   </fieldset>
 
