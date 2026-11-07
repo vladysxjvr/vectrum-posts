@@ -23,6 +23,10 @@ fonts/            Raleway и Raleway Italic: латиница и кирилли�
 npx http-server . -p 8000 -c-1
 ```
 
+## Публикация
+
+Сайт живёт на Render: статический сервис `vectrum-posts`, ветка `main`, без сборки.
+
 ## Новый шаблон
 
 1. Добавь конфиг в `window.VARIANTS` в `js/variants.js`: он сам станет вкладкой.
