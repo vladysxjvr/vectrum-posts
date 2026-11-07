@@ -25,7 +25,7 @@ npx http-server . -p 8000 -c-1
 
 ## Публикация
 
-Сайт живёт на Render: статический сервис `vectrum-posts`, ветка `main`, без сборки.
+Сайт живёт на Render: https://vectrum-posts.onrender.com, статический сервис `vectrum-posts`, ветка `main`, без сборки.
 
 ## Новый шаблон
 
