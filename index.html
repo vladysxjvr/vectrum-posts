@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:,">
+<title>Vectrum Posts</title>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<header class="top">
+  <strong class="brand">Vectrum <span>Posts</span></strong>
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Шаблон"></nav>
+  <div class="seg" id="formats" role="group" aria-label="Формат"></div>
+</header>
+
+<main class="layout">
+  <fieldset class="panel" id="controls">
+    <section>
+      <h2>Текст</h2>
+      <div class="field-head">
+        <label id="h1-label">Главный заголовок (H1)</label>
+        <button type="button" class="chip" id="accent">Сделать синим</button>
+      </div>
+      <div id="h1" class="input editable" contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-labelledby="h1-label" spellcheck="false"></div>
+      <p class="hint" id="accent-hint">Выдели слово мышкой и нажми «Сделать синим». Enter переносит строку.</p>
+
+      <label for="h2">Подзаголовок (H2)</label>
+      <textarea id="h2" class="input" rows="2" spellcheck="false"></textarea>
+
+      <p class="warn" id="overflow" hidden>Текст слишком длинный и не помещается даже в самом мелком размере. Сократи его, иначе он выйдет за безопасную зону.</p>
+
+      <div class="row">
+        <span class="row-label">Положение</span>
+        <div class="seg" id="positions" role="group" aria-label="Положение текста">
+          <button type="button" data-pos="top">Сверху</button>
+          <button type="button" data-pos="bottom">Снизу</button>
+        </div>
+      </div>
+      <label class="check"><input type="checkbox" id="line"> Синяя линия под заголовком</label>
+    </section>
+
+    <section>
+      <h2>Фон</h2>
+      <input type="file" id="file" accept="image/*,video/mp4,video/quicktime,video/webm" hidden>
+      <div class="bg-pick">
+        <button type="button" class="btn" id="pick">Выбрать картинку или видео</button>
+        <button type="button" class="btn ghost" id="clear" hidden>Убрать</button>
+      </div>
+      <p class="hint" id="bg-name">Сейчас фирменный фон. Звук из видео в файл не попадает.</p>
+      <p class="warn" id="bg-error" hidden></p>
+
+      <div id="bg-options" hidden>
+        <label class="slider">Затемнение <output id="dim-out"></output>
+          <input type="range" id="dim" min="0" max="90" step="1">
+        </label>
+        <label class="slider">Масштаб <output id="zoom-out"></output>
+          <input type="range" id="zoom" min="100" max="300" step="1">
+        </label>
+        <label class="check"><input type="checkbox" id="anim"> Анимация поверх фона</label>
+        <p class="hint">Чтобы выбрать нужную часть кадра, перетащи фон прямо на превью.</p>
+      </div>
+    </section>
+
+    <section class="save">
+      <h2>Скачать</h2>
+      <div class="bg-pick">
+        <button type="button" class="btn primary" id="mp4">Скачать MP4</button>
+        <button type="button" class="btn" id="png">Скачать PNG</button>
+      </div>
+      <p class="hint" id="save-hint">MP4: один цикл 10 секунд, без звука. PNG: кадр, который сейчас на превью.</p>
+    </section>
+  </fieldset>
+
+  <section class="stage">
+    <div class="canvas-wrap" id="wrap">
+      <canvas id="c" aria-label="Превью поста"></canvas>
+      <div class="progress" id="progress" hidden>
+        <p id="progress-text">Собираю видео…</p>
+        <div class="bar"><div id="bar"></div></div>
+        <button type="button" class="btn ghost" id="cancel">Отменить</button>
+      </div>
+    </div>
+    <button type="button" class="chip" id="play">Пауза</button>
+  </section>
+</main>
+
+<script src="js/tokens.js"></script>
+<script src="js/variants.js"></script>
+<script src="js/text.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/vendor/mediabunny.min.js"></script>
+<script src="js/editor.js"></script>
+</body>
+</html>
