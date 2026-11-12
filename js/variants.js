@@ -11,9 +11,23 @@ window.COMMON = {
 };
 
 // Text zones are chosen so the text survives both the Reels UI and the centre crop of the profile grid.
+// logo: mark height h at (x, y); with the text on top, the text starts at least `gap` below it.
 window.FORMATS = {
-  "9x16": { label: "9:16 · Reels", w: 1080, h: 1920, text: { x: 80, maxW: 850, top: 300, bottom: 1580, maxH: 900, h1: 96, h2: 40 } },
-  "1x1":  { label: "1:1 · Пост",   w: 1080, h: 1080, text: { x: 80, maxW: 920, top: 110, bottom: 990,  maxH: 680, h1: 80, h2: 34 } },
+  "9x16": { label: "9:16 · Reels", w: 1080, h: 1920, text: { x: 80, maxW: 850, top: 300, bottom: 1580, maxH: 900, h1: 96, h2: 40 }, logo: { x: 80, y: 270, h: 72, gap: 56 } },
+  "1x1":  { label: "1:1 · Пост",   w: 1080, h: 1080, text: { x: 80, maxW: 920, top: 110, bottom: 990,  maxH: 680, h1: 80, h2: 34 }, logo: { x: 80, y: 72,  h: 58, gap: 44 } },
+};
+
+// Brand signature next to the mark: "Vectrum" + the accent word.
+window.LOGOS = {
+  dev:   { label: "Vectrum Dev",   word: "Dev" },
+  space: { label: "Vectrum Space", word: "Space" },
+  none:  { label: "Без логотипа" },
+};
+
+// Page colours per theme; a variant's `light` block overrides its own fields for the light theme.
+window.THEMES = {
+  dark:  { label: "Тёмная",  page: ["wwwPageA", "wwwPageB"],     glowComp: "screen",      overlay: "wwwPageB",   h1: "textPrimary", h2: "textSub",     logoText: "textPrimary" },
+  light: { label: "Светлая", page: ["lightPageA", "lightPageB"], glowComp: "source-over", overlay: "lightPageA", h1: "textDark",    h2: "textDarkSub", logoText: "textDark" },
 };
 
 window.VARIANTS = {
@@ -28,6 +42,10 @@ window.VARIANTS = {
       pulses: 3, pulseEdges: 5, pulseColor: "accentMain", pulseAlpha: 0.55, pulseSeconds: 5,
       bias: 1.6,           // density bias towards bottom-right
     },
+    light: {
+      bg: { glow: [{ color: "lightGlowB", x: 0.78, y: 0.82, r: 600, a: 0.55, breathe: 0.2 }] },
+      network: { line: "accentMain", lineAlpha: 0.62, hubFill: "lightPageA", hubStroke: "accentMain", hubAlpha: 0.95, pulseAlpha: 0.85 },
+    },
   },
 
   "04-aurora": {
@@ -40,6 +58,15 @@ window.VARIANTS = {
         { color: "accentMain",  cx: 0.55, cy: 1.02, orbit: 80,  r: 560, a: 0.16, turns: 1,  phase: 0.70 },
       ],
       wobble: 0.10,        // radius modulation from loop noise
+    },
+    light: {
+      aurora: {
+        blobs: [
+          { color: "lightGlowA", cx: 0.80, cy: 0.86, orbit: 90,  r: 640, a: 0.85, turns: 1,  phase: 0.00 },
+          { color: "lightGlowB", cx: 0.98, cy: 0.62, orbit: 70,  r: 520, a: 0.90, turns: -1, phase: 0.35 },
+          { color: "accentMain", cx: 0.55, cy: 1.02, orbit: 80,  r: 560, a: 0.40, turns: 1,  phase: 0.70 },
+        ],
+      },
     },
   },
 };

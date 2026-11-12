@@ -7,10 +7,11 @@
   const BRAND_COLORS = [
     ['Белый', TK.textPrimary], ['Светло-серый', TK.textSub], ['Серый', TK.textSecondary],
     ['Синий Vectrum', TK.accentMain], ['Голубой', TK.statusBlueText], ['Индиго', TK.wwwBlue], ['Лавандовый', TK.markerTone],
+    ['Красный Vectrum', TK.logoRed], ['Тёмно-синий', TK.textDark], ['Тёмно-серый', TK.textDarkSub],
   ];
 
   const S = {
-    variant: '02-network', format: '9x16',
+    variant: '02-network', format: '9x16', theme: 'dark', logo: 'dev',
     h1: { text: 'Smarter Transport. Together.', styles: [] },
     h2: { text: 'Run your transport business as one', styles: [] },
     line: true, pos: 'top',
@@ -24,14 +25,16 @@
   const STORE = 'vectrum-posts-v1';
   try {
     const saved = JSON.parse(localStorage.getItem(STORE) || 'null');
-    if (saved) for (const k of ['variant', 'format', 'h1', 'h2', 'line', 'pos', 'dim', 'anim']) if (k in saved) S[k] = saved[k];
+    if (saved) for (const k of ['variant', 'format', 'theme', 'logo', 'h1', 'h2', 'line', 'pos', 'dim', 'anim']) if (k in saved) S[k] = saved[k];
     if (typeof S.h2 === 'string') S.h2 = { text: S.h2, styles: [] }; // saved by the first version
     if (S.h1.marks) S.h1 = { text: S.h1.text, styles: S.h1.marks.map(m => m ? { c: TK.accentMain } : null) };
     if (!window.VARIANTS[S.variant]) S.variant = '02-network';
     if (!window.FORMATS[S.format]) S.format = '9x16';
+    if (!window.THEMES[S.theme]) S.theme = 'dark';
+    if (!window.LOGOS[S.logo]) S.logo = 'dev';
   } catch (e) { /* storage is only a convenience */ }
   function remember() {
-    try { localStorage.setItem(STORE, JSON.stringify({ variant: S.variant, format: S.format, h1: S.h1, h2: S.h2, line: S.line, pos: S.pos, dim: S.dim, anim: S.anim })); } catch (e) { /* see above */ }
+    try { localStorage.setItem(STORE, JSON.stringify({ variant: S.variant, format: S.format, theme: S.theme, logo: S.logo, h1: S.h1, h2: S.h2, line: S.line, pos: S.pos, dim: S.dim, anim: S.anim })); } catch (e) { /* see above */ }
   }
 
   // ---------- drawing ----------
@@ -39,7 +42,7 @@
 
   function drawOptions(grain, source) {
     const bg = S.bg && { source: source === undefined ? bgSource() : source, w: S.bg.w, h: S.bg.h };
-    return { grain, bg, zoom: S.zoom, panX: S.panX, panY: S.panY, dim: S.dim, anim: S.anim, textPos: S.pos, text: { h1: S.h1, h2: S.h2, line: S.line, pos: S.pos } };
+    return { grain, bg, zoom: S.zoom, panX: S.panX, panY: S.panY, dim: S.dim, anim: S.anim, textPos: S.pos, logo: S.logo, text: { h1: S.h1, h2: S.h2, line: S.line, pos: S.pos } };
   }
   function bgSource() {
     if (S.bg.kind === 'video' && S.bg.source.readyState < 2) return null;
@@ -76,7 +79,7 @@
 
   // ---------- tabs and format ----------
   function buildSwitches() {
-    $('tabs').innerHTML = ''; $('formats').innerHTML = '';
+    $('tabs').innerHTML = ''; $('formats').innerHTML = ''; $('themes').innerHTML = ''; $('logos').innerHTML = '';
     for (const id in window.VARIANTS) {
       const b = document.createElement('button');
       b.type = 'button'; b.role = 'tab'; b.dataset.id = id; b.textContent = window.VARIANTS[id].title;
@@ -89,14 +92,29 @@
       b.onclick = () => { if (S.format !== id) { S.format = id; applyTemplate(); } };
       $('formats').append(b);
     }
+    for (const id in window.THEMES) {
+      const b = document.createElement('button');
+      b.type = 'button'; b.dataset.id = id; b.textContent = window.THEMES[id].label;
+      b.onclick = () => { if (S.theme !== id) { S.theme = id; applyTemplate(); } };
+      $('themes').append(b);
+    }
+    for (const id in window.LOGOS) {
+      const b = document.createElement('button');
+      b.type = 'button'; b.dataset.id = id; b.textContent = window.LOGOS[id].label;
+      b.onclick = () => { S.logo = id; syncSwitches(); dirty = true; remember(); };
+      $('logos').append(b);
+    }
   }
   function syncSwitches() {
     for (const b of $('tabs').children) b.setAttribute('aria-selected', b.dataset.id === S.variant);
     for (const b of $('formats').children) b.setAttribute('aria-pressed', b.dataset.id === S.format);
+    for (const b of $('themes').children) b.setAttribute('aria-pressed', b.dataset.id === S.theme);
+    for (const b of $('logos').children) b.setAttribute('aria-pressed', b.dataset.id === S.logo);
     for (const b of $('positions').children) b.setAttribute('aria-pressed', b.dataset.pos === S.pos);
   }
   function applyTemplate() {
-    engine.setup(S.variant, S.format);
+    engine.setup(S.variant, S.format, S.theme);
+    document.body.classList.toggle('theme-light', S.theme === 'light');
     syncSwitches(); restart(); remember();
   }
 
@@ -205,7 +223,7 @@
     el.addEventListener('input', () => { S[k] = readField(el); dirty = true; remember(); syncToolbar(); });
     el.addEventListener('paste', e => { // plain text only, whatever was copied
       e.preventDefault();
-      document.execCommand('insertText', false, (e.clipboardData.getData('text/plain') || '').replace(/\r/g, ''));
+      document.execCommand('insertText', false, (e.clipboardData.getData('text/plain') || '').replace(/\r/g, '').replace(/[\t ]/g, ' ').trim());
     });
   }
   document.addEventListener('selectionchange', () => {
@@ -368,7 +386,7 @@
   // ---------- download ----------
   function saveBlob(blob, ext) {
     const a = document.createElement('a'), name = window.VARIANTS[S.variant].title.toLowerCase();
-    a.href = URL.createObjectURL(blob); a.download = `vectrum-${name}-${S.format}.${ext}`;
+    a.href = URL.createObjectURL(blob); a.download = `vectrum-${S.logo === 'none' ? '' : S.logo + '-'}${name}-${S.theme}-${S.format}.${ext}`;
     document.body.append(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 30000);
   }
@@ -428,7 +446,7 @@
   function setBusy(on) {
     busy = on; $('controls').disabled = on; $('progress').hidden = !on;
     for (const k of fieldKeys) $(k).contentEditable = on ? 'false' : 'plaintext-only'; // a fieldset does not disable contenteditable
-    for (const b of [...$('tabs').children, ...$('formats').children, $('play')]) b.disabled = on;
+    for (const b of [...$('tabs').children, ...$('formats').children, ...$('themes').children, ...$('logos').children, $('play')]) b.disabled = on;
     if (S.bg && S.bg.kind === 'video') { if (on) S.bg.source.pause(); else if (playing) S.bg.source.play().catch(() => {}); }
     syncSound();
     if (!on) restart();
@@ -459,6 +477,7 @@
     // canvas text needs the faces loaded up front; weights are in one variable file per script
     const sample = 'Aa ąę Яя ґ';
     await Promise.all(['', 'italic '].map(s => document.fonts.load(s + '900 76px Raleway', sample))).catch(() => {});
+    await engine.mark.decode().catch(() => {});
     dirty = true;
     if (!('VideoEncoder' in window)) saveMessage('Этот браузер не умеет сохранять MP4. PNG работает, а для видео открой страницу в Chrome или Edge на компьютере.', true);
     requestAnimationFrame(tick);

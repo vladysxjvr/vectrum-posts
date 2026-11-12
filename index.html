@@ -18,6 +18,18 @@
 <main class="layout">
   <fieldset class="panel" id="controls">
     <section>
+      <h2>Логотип и тема</h2>
+      <div class="row">
+        <span class="row-label">Логотип</span>
+        <div class="seg" id="logos" role="group" aria-label="Логотип"></div>
+      </div>
+      <div class="row">
+        <span class="row-label">Тема</span>
+        <div class="seg" id="themes" role="group" aria-label="Тема"></div>
+      </div>
+    </section>
+
+    <section>
       <h2>Текст</h2>
       <div class="toolbar" id="toolbar" role="toolbar" aria-label="Форматирование текста">
         <button type="button" class="tool" id="fmt-bold" aria-pressed="false" title="Жирный или нежирный" aria-label="Жирный"><b>Ж</b></button>
@@ -30,7 +42,7 @@
         <label class="tool palette">Палитра<input type="color" id="custom-color" value="#4d76f7"></label>
         <button type="button" class="tool" id="fmt-clear" title="Вернуть стиль по умолчанию">Сбросить</button>
       </div>
-      <p class="hint">Выдели слова и выбери стиль. Если ничего не выделено, стиль применится ко всему полю. Enter переносит строку.</p>
+      <p class="hint">Текст можно просто вставить: форматирование из источника не переносится. Выдели слова и выбери стиль. Если ничего не выделено, стиль применится ко всему полю. Enter переносит строку.</p>
 
       <label id="h1-label">Главный заголовок (H1)</label>
       <div id="h1" class="input editable" contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-labelledby="h1-label" spellcheck="false"></div>

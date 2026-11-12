@@ -3,7 +3,8 @@
 //   figma: file CVEmdBe0mvGk4bW9XEGSoG, Color Variables (get_variable_defs)
 //   dev:   https://dev.vectrumspace.eu  /api/public/dev/styles.css
 //   www:   https://www.vectrumspace.eu  /_next/static/chunks/*.css (LandingPage module)
-// Rule: no colour outside this file. Red from the logo / NOTIFY-RED / STATUS-Red is NOT used.
+//   logo:  www.vectrumspace.eu /brand/v3/mark.png (sampled)
+// Rule: no colour outside this file. The logo red is for text only, never in backgrounds.
 // Alpha is applied at draw time with rgba(token, a); the hue/value stay exactly the token's.
 window.TOKENS = {
   // accent
@@ -40,4 +41,13 @@ window.TOKENS = {
   textPrimary:     "#F7F8FC", // dev: .hero h1 color
   textSub:         "#B4BCCF", // dev: .hero p color
   textSecondary:   "#DADADA", // figma: Color-Text/secondary-text
+  logoRed:         "#FC2F36", // logo: the short red bar
+
+  // light theme: the same blues on a pale page
+  lightPageA:      "#F5F7FC",
+  lightPageB:      "#E3E9F7",
+  lightGlowA:      "#8FA9F8",
+  lightGlowB:      "#B4C5FA",
+  textDark:        "#12172A", // = wwwPageA
+  textDarkSub:     "#4A5574",
 };

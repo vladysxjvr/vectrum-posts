@@ -78,13 +78,13 @@ window.createEngine = function (cv) {
   }
   function drawBrandBg() {
     ctx.globalCompositeOperation = 'source-over';
-    ctx.fillStyle = cssLinear(116, [[.0956, 'wwwPageA'], [.8604, 'wwwPageB']]);
+    ctx.fillStyle = cssLinear(116, [[.0956, T.page[0]], [.8604, T.page[1]]]);
     ctx.fillRect(0, 0, W, H);
   }
   function drawBgGlows(bg, p) {
     for (const gl of bg.glow || []) {
       const b = 1 + gl.breathe * Math.sin(TAU * p);
-      glow(gl.x * W, gl.y * H, gl.r * G, gl.color, gl.a * b);
+      glow(gl.x * W, gl.y * H, gl.r * G, gl.color, gl.a * b, T.glowComp);
     }
   }
 
@@ -92,15 +92,15 @@ window.createEngine = function (cv) {
   function coverSize(w, h, zoom) { const s = Math.max(W / w, H / h) * zoom; return { dw: w * s, dh: h * s }; }
   function drawUserBg(bg, o) {
     ctx.globalCompositeOperation = 'source-over';
-    ctx.fillStyle = TK.wwwPageB; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = TK[T.overlay]; ctx.fillRect(0, 0, W, H);
     if (bg.source) {
       const { dw, dh } = coverSize(bg.w, bg.h, o.zoom);
       ctx.drawImage(bg.source, (W - dw) / 2 + o.panX * (dw - W) / 2, (H - dh) / 2 + o.panY * (dh - H) / 2, dw, dh);
     }
-    // darkening: strongest on the side with the text, so it stays readable on any picture
-    const [x0, x1] = o.textPos === 'bottom' ? [H, 0] : [0, H];
+    // darkening (lightening in the light theme): strongest on the side with the text, so it stays readable on any picture
+    const [x0, x1] = o.textPos === 'bottom' ? [H, 0] : [0, H], ov = T.overlay;
     const g = ctx.createLinearGradient(0, x0, 0, x1);
-    g.addColorStop(0, rgba('wwwPageB', o.dim)); g.addColorStop(0.65, rgba('wwwPageB', o.dim * 0.45)); g.addColorStop(1, rgba('wwwPageB', o.dim * 0.2));
+    g.addColorStop(0, rgba(ov, o.dim)); g.addColorStop(0.65, rgba(ov, o.dim * 0.45)); g.addColorStop(1, rgba(ov, o.dim * 0.2));
     ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
   }
 
@@ -110,7 +110,7 @@ window.createEngine = function (cv) {
       const a = TAU * (b.turns * p + b.phase);
       const x = b.cx * W + b.orbit * G * Math.cos(a), y = b.cy * H + b.orbit * G * 0.8 * Math.sin(a);
       const r = b.r * G * (1 + cfg.wobble * loopNoise(p, ox + i * 7.3, 3.1 + i * 2.2, 0.6));
-      glow(x, y, r, b.color, b.a);
+      glow(x, y, r, b.color, b.a, T.glowComp);
     });
   }
 
@@ -167,7 +167,7 @@ window.createEngine = function (cv) {
       const g = ctx.createLinearGradient(A[0], A[1], x, y);
       g.addColorStop(0, rgba(cfg.pulseColor, 0)); g.addColorStop(1, rgba(cfg.pulseColor, fade * 0.7));
       ctx.strokeStyle = g; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(A[0], A[1]); ctx.lineTo(x, y); ctx.stroke();
-      glow(x, y, 26, cfg.pulseColor, fade * 0.55);
+      glow(x, y, 26, cfg.pulseColor, fade * 0.55, T.glowComp);
       ctx.fillStyle = rgba(cfg.pulseColor, fade); ctx.beginPath(); ctx.arc(x, y, 2.2, 0, TAU); ctx.fill();
     }
     // nodes (network.png style: small dots, hubs = outlined circle on Spreadsheet fill)
@@ -195,15 +195,25 @@ window.createEngine = function (cv) {
   }
 
   // ---------- main ----------
-  let V, F, state = {};
+  // a variant with its `light` overrides applied, one level deep
+  function themed(base, themeId) {
+    const over = themeId === 'light' && base.light, v = { ...base };
+    if (over) for (const k in over) v[k] = { ...base[k], ...over[k] };
+    return v;
+  }
+
+  const mark = new Image(); mark.src = 'img/vectrum-mark.png';
+  let V, F, T, state = {};
   return {
     FRAMES,
     get width() { return W; },
     get height() { return H; },
+    mark,
     coverSize,
-    setup(id, formatId) {
-      V = window.VARIANTS[id]; F = window.FORMATS[formatId];
-      if (!V || !F) throw new Error('no template ' + id + ' / ' + formatId);
+    setup(id, formatId, themeId = 'dark') {
+      F = window.FORMATS[formatId]; T = window.THEMES[themeId];
+      if (!window.VARIANTS[id] || !F || !T) throw new Error('no template ' + id + ' / ' + formatId + ' / ' + themeId);
+      V = themed(window.VARIANTS[id], themeId);
       W = F.w; H = F.h; G = Math.sqrt(W * H) / 1080;
       cv.width = W; cv.height = H;
       let seed = 0; for (const ch of id) seed = (seed * 31 + ch.charCodeAt(0)) | 0;
@@ -212,7 +222,7 @@ window.createEngine = function (cv) {
       state = {};
       if (V.network) state.network = setupNetwork(V.network, rand);
     },
-    // o: { grain, bg, zoom, panX, panY, dim, anim, textPos, text } ; returns text layout info
+    // o: { grain, bg, zoom, panX, panY, dim, anim, textPos, text, logo } ; returns text layout info
     draw(frame, o = {}) {
       const p = frame / FRAMES; // no modulo: p=1.0 must reproduce p=0 by construction
       ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.filter = 'none'; ctx.setLineDash([]);
@@ -224,7 +234,15 @@ window.createEngine = function (cv) {
       }
       ctx.globalCompositeOperation = 'source-over';
       if (o.grain) applyGrain(frame, C.grain);
-      return o.text ? window.TextLayer.draw(ctx, o.text, F.text) : null;
+      const logo = o.logo && window.LOGOS[o.logo] && window.LOGOS[o.logo].word ? window.LOGOS[o.logo] : null;
+      if (logo) window.TextLayer.drawLogo(ctx, mark, F.logo, logo.word, TK[T.logoText]);
+      if (!o.text) return null;
+      let z = F.text;
+      if (logo && o.text.pos === 'top') { // keep the headline clear of the logo
+        const top = Math.max(z.top, F.logo.y + F.logo.h + F.logo.gap);
+        z = { ...z, top, maxH: z.maxH - (top - z.top) };
+      }
+      return window.TextLayer.draw(ctx, { ...o.text, colors: { h1: TK[T.h1], h2: TK[T.h2] } }, z);
     },
   };
 };

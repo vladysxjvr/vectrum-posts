@@ -63,7 +63,8 @@ window.TextLayer = (function () {
   }
 
   function layout(ctx, doc, z) {
-    const u1 = toUnits(doc.h1, FIELDS.h1), u2 = toUnits(doc.h2, FIELDS.h2);
+    const c = doc.colors || {};
+    const u1 = toUnits(doc.h1, { ...FIELDS.h1, color: c.h1 || FIELDS.h1.color }), u2 = toUnits(doc.h2, { ...FIELDS.h2, color: c.h2 || FIELDS.h2.color });
     let last;
     for (let scale = 1; scale >= MIN_SCALE - 1e-6; scale -= 0.03) {
       const s1 = Math.round(z.h1 * scale), s2 = Math.round(z.h2 * Math.max(scale, 0.75)), sp = -s1 / 76;
@@ -90,7 +91,7 @@ window.TextLayer = (function () {
   }
 
   function draw(ctx, doc, z) {
-    const key = JSON.stringify([doc.h1, doc.h2, doc.line, z]);
+    const key = JSON.stringify([doc.h1, doc.h2, doc.line, doc.colors, z]);
     if (key !== cacheKey) { cache = layout(ctx, doc, z); cacheKey = key; }
     const L = cache;
     ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
@@ -110,5 +111,19 @@ window.TextLayer = (function () {
     return { overflow: L.overflow };
   }
 
-  return { draw, FIELDS };
+  // the mark, then "Vectrum" in the text colour and the accent word in blue, centred on the mark
+  function drawLogo(ctx, mark, L, word, color) {
+    if (!mark.complete || !mark.naturalWidth) return;
+    const mw = L.h * mark.naturalWidth / mark.naturalHeight, size = Math.round(L.h * 0.56);
+    ctx.drawImage(mark, L.x, L.y, mw, L.h);
+    ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+    setFont(ctx, `800 ${size}px Raleway, Arial, sans-serif`, -size / 60);
+    let x = L.x + mw + L.h * 0.3; const y = L.y + L.h / 2 + size * 0.04;
+    ctx.fillStyle = color; ctx.fillText('Vectrum ', x, y);
+    x += ctx.measureText('Vectrum ').width;
+    ctx.fillStyle = TK.accentMain; ctx.fillText(word, x, y);
+    if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+  }
+
+  return { draw, drawLogo, FIELDS };
 })();

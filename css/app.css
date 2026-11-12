@@ -53,6 +53,10 @@ label { font-weight: 600; }
 .editable { min-height: 62px; white-space: pre-wrap; overflow-wrap: anywhere; }
 #h1 { font-weight: 800; color: #f7f8fc; }
 #h2 { color: #b4bccf; }
+/* fields follow the post theme so the chosen colours read the same as on the preview */
+.theme-light .editable { background: #f5f7fc; border-color: #c9d2ea; }
+.theme-light #h1 { color: #12172a; }
+.theme-light #h2 { color: #4a5574; }
 .sound[aria-pressed="false"] { background: var(--accent); border-color: var(--accent); }
 .hint { margin: 0; font-size: 13px; color: var(--sub); }
 .hint.err { color: var(--warn); }
