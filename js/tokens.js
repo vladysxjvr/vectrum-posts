@@ -37,6 +37,15 @@ window.TOKENS = {
   glowTR:          "#3C48AA", // dev: .b-tr rgba(60,72,170,.7)
   wwwLine:         "#647CC8", // www: --line #647cc838
 
+  // dev hero, full set of blobs (Gradient template)
+  devHeroBg:       "#0C0717", // dev: --bg-hero
+  glowHeroDeep:    "#141032", // dev: .b-center rgba(20,16,50,0)
+  glowPurple:      "#703CC8", // dev: .b-bl / .b-br rgba(112,60,200,.75/.8)
+  glowPurpleDeep:  "#502896", // dev: .b-bl / .b-br rgba(80,40,150,0)
+  glowTRDeep:      "#282878", // dev: .b-tr rgba(40,40,120,0)
+  glowTL:          "#322878", // dev: .b-tl rgba(50,40,120,.5)
+  glowTLDeep:      "#281E64", // dev: .b-tl rgba(40,30,100,0)
+
   // text (only for previews, never in backgrounds)
   textPrimary:     "#F7F8FC", // dev: .hero h1 color
   textSub:         "#B4BCCF", // dev: .hero p color
@@ -48,6 +57,7 @@ window.TOKENS = {
   lightPageB:      "#E3E9F7",
   lightGlowA:      "#8FA9F8",
   lightGlowB:      "#B4C5FA",
+  lightPurple:     "#BBA4F2",
   textDark:        "#12172A", // = wwwPageA
   textDarkSub:     "#4A5574",
 };

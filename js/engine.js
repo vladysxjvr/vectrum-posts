@@ -25,6 +25,7 @@ window.createEngine = function (cv) {
     return x => { let t = x; for (let i = 0; i < 8; i++) { const e = sx(t) - x; const d = dx(t); if (Math.abs(e) < 1e-6 || !d) break; t -= e / d; } return sy(clamp(t)); };
   }
   const easeSine = bezier(.5, 0, .5, 1);
+  const easeInOut = bezier(.42, 0, .58, 1);
 
   // 2D simplex noise (seeded). Loop noise = sample on a circle: n(ox + R cos 2πp, oy + R sin 2πp)
   function makeNoise(rand) {
@@ -78,7 +79,8 @@ window.createEngine = function (cv) {
   }
   function drawBrandBg() {
     ctx.globalCompositeOperation = 'source-over';
-    ctx.fillStyle = cssLinear(116, [[.0956, T.page[0]], [.8604, T.page[1]]]);
+    const page = V.bg.page || T.page;
+    ctx.fillStyle = cssLinear(116, [[.0956, page[0]], [.8604, page[1]]]);
     ctx.fillRect(0, 0, W, H);
   }
   function drawBgGlows(bg, p) {
@@ -112,6 +114,97 @@ window.createEngine = function (cv) {
       const r = b.r * G * (1 + cfg.wobble * loopNoise(p, ox + i * 7.3, 3.1 + i * 2.2, 0.6));
       glow(x, y, r, b.color, b.a, T.glowComp);
     });
+  }
+
+  // ---------- gradient (dev hero blobs) ----------
+  // CSS: drift 0 -> (x1,y1) at 50% -> (x2,y2) at 100%, alternate, ease-in-out per keyframe.
+  // One loop = one full there-and-back, so the path is 0 -> A -> B -> A -> 0 and p=1 equals p=0.
+  // radial-gradient(circle, ...) in a square box sizes to the farthest corner: R = d / √2.
+  function drawHero(cfg, p) {
+    ctx.save(); ctx.globalCompositeOperation = 'source-over'; // stacked like the DOM, not added
+    for (const b of cfg.blobs) {
+      const q = fract(p + b.phase), m = cfg.motion;
+      const dx = kfTrack(q, [[0, 0], [.25, b.x1], [.5, b.x2], [.75, b.x1], [1, 0]]) * m * W / 100;
+      const dy = kfTrack(q, [[0, 0], [.25, b.y1], [.5, b.y2], [.75, b.y1], [1, 0]]) * m * H / 100;
+      const sc = kfTrack(q, [[0, 1], [.25, 1.08], [.5, .96], [.75, 1.08], [1, 1]]);
+      const x = b.x * W + dx, y = b.y * H + dy, R = b.d * G * sc / Math.SQRT2;
+      const g = ctx.createRadialGradient(x, y, 0, x, y, R);
+      for (const [o, c, a] of b.stops) g.addColorStop(o, rgba(c, a));
+      ctx.fillStyle = g; ctx.fillRect(x - R, y - R, 2 * R, 2 * R);
+    }
+    ctx.restore();
+  }
+
+  // ---------- stars: twinkling sky + falling stars ----------
+  function pickColor(colors, r) { let acc = 0; for (const [c, w] of colors) { acc += w; if (r < acc) return c; } return colors[0][0]; }
+  function setupStarfield(cfg, rand) {
+    const count = Math.round(cfg.count * (W * H) / (1080 * 1080)), list = [];
+    for (let i = 0; i < count; i++) {
+      const big = rand() < cfg.big;
+      list.push({
+        x: rand() * W, y: rand() * H, big,
+        r: big ? 1.6 + rand() * 0.9 : 0.55 + rand() * 0.9,
+        color: pickColor(cfg.colors, rand()),
+        n: 1 + Math.floor(rand() * 3),   // whole twinkles per loop -> seamless
+        ph: rand(),
+        sharp: 1.5 + rand() * 2.5,       // higher = longer dark pause, star disappears
+        base: rand() < 0.25 ? 0.25 : 0,  // a few never go fully dark
+      });
+    }
+    return list;
+  }
+  function drawStarfield(cfg, list, p) {
+    for (const s of list) {
+      const tw = Math.pow(0.5 + 0.5 * Math.sin(TAU * (s.n * p + s.ph)), s.sharp);
+      const a = cfg.alpha * (s.base + (1 - s.base) * tw) * lerp(cfg.calm, 1, mask(s.x, s.y));
+      if (a < 0.01) continue;
+      if (s.big) {
+        glow(s.x, s.y, 14 * s.r * G, s.color, a * 0.35, T.glowComp);
+        const L = s.r * 6 * (0.6 + 0.4 * tw);  // cross flare grows with brightness
+        ctx.lineWidth = 0.8;
+        for (const [ux, uy] of [[1, 0], [0, 1]]) {
+          const g = ctx.createLinearGradient(s.x - ux * L, s.y - uy * L, s.x + ux * L, s.y + uy * L);
+          g.addColorStop(0, rgba(s.color, 0)); g.addColorStop(0.5, rgba(s.color, a * 0.8)); g.addColorStop(1, rgba(s.color, 0));
+          ctx.strokeStyle = g; ctx.beginPath(); ctx.moveTo(s.x - ux * L, s.y - uy * L); ctx.lineTo(s.x + ux * L, s.y + uy * L); ctx.stroke();
+        }
+      }
+      ctx.fillStyle = rgba(s.color, a);
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, TAU); ctx.fill();
+    }
+  }
+  function setupMeteors(cfg, rand) {
+    const list = [];
+    for (let i = 0; i < cfg.count; i++) list.push({
+      start: (i + 0.15 + rand() * 0.7) / cfg.count, // stratified start in loop
+      x: lerp(cfg.area.x0, cfg.area.x1, rand()) * W,
+      y: lerp(cfg.area.y0, cfg.area.y1, rand()) * H,
+      k: 0.85 + rand() * 0.3,
+    });
+    return list;
+  }
+  // after vectrum-bg 01-fallen-stars: ease-in-out flight, fade in/out ~9%, tail grows then shrinks
+  function drawMeteors(cfg, list, p) {
+    const T_ = C.seconds, ang = cfg.angleDeg * Math.PI / 180, dx = Math.cos(ang), dy = Math.sin(ang), S = cfg.scale;
+    for (const s of list) {
+      const local = fract(p - s.start) * T_; // wraps across the loop seam
+      if (local >= cfg.flight) continue;
+      const u = local / cfg.flight, d = easeInOut(u) * cfg.travel * G;
+      const x = s.x + dx * d, y = s.y + dy * d;
+      const op = kfTrack(u, [[0, 0], [0.09, 1], [0.905, 1], [1, 0]]) * cfg.opacity * s.k;
+      const tail = kfTrack(u, [[0, 0], [0.27, 40], [0.55, 60], [0.82, 60], [1, 0]]) / 60 * cfg.tailMax * G;
+      glow(x, y, 16 * S * s.k, cfg.glow, op * 0.3, T.glowComp);
+      if (tail > 1) {
+        ctx.save();
+        ctx.filter = `blur(${(1.2 * S).toFixed(2)}px)`;
+        const tx = x - dx * tail, ty = y - dy * tail, g = ctx.createLinearGradient(x, y, tx, ty);
+        g.addColorStop(0, rgba(cfg.tail, op)); g.addColorStop(1, rgba(cfg.tail, 0));
+        ctx.strokeStyle = g; ctx.lineWidth = 1.1 * S; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(tx, ty); ctx.stroke();
+        ctx.restore();
+      }
+      ctx.fillStyle = rgba(cfg.core, op);
+      ctx.beginPath(); ctx.arc(x, y, 1.5 * S * s.k, 0, TAU); ctx.fill();
+    }
   }
 
   // ---------- network ----------
@@ -221,6 +314,8 @@ window.createEngine = function (cv) {
       noise2 = makeNoise(rand);
       state = {};
       if (V.network) state.network = setupNetwork(V.network, rand);
+      if (V.starfield) state.starfield = setupStarfield(V.starfield, rand);
+      if (V.meteors) state.meteors = setupMeteors(V.meteors, rand);
     },
     // o: { grain, bg, zoom, panX, panY, dim, anim, textPos, text, logo } ; returns text layout info
     draw(frame, o = {}) {
@@ -231,6 +326,9 @@ window.createEngine = function (cv) {
         drawBgGlows(V.bg, p);
         if (V.aurora) drawAurora(V.aurora, p);
         if (V.network) drawNetwork(V.network, state.network, p);
+        if (V.hero) drawHero(V.hero, p);
+        if (V.starfield) drawStarfield(V.starfield, state.starfield, p);
+        if (V.meteors) drawMeteors(V.meteors, state.meteors, p);
       }
       ctx.globalCompositeOperation = 'source-over';
       if (o.grain) applyGrain(frame, C.grain);
