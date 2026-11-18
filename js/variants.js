@@ -30,17 +30,6 @@ window.THEMES = {
   light: { label: "Светлая", page: ["lightPageA", "lightPageB"], glowComp: "source-over", overlay: "lightPageA", h1: "textDark",    h2: "textDarkSub", logoText: "textDark" },
 };
 
-// Gradient: the five drifting blobs of the dev.vectrumspace.eu hero (css/styles.css .b-*).
-// d = blob diameter at G=1, x/y = its centre in frame fractions, x1..y2 = the CSS drift in vw/vh,
-// stops = the CSS radial-gradient stops (offset, colour token, alpha). c = colour per theme.
-const heroBlobs = c => [
-  { x: 0.5, y: 0.42, d: 735,  x1: 5,   y1: -4,  x2: -6, y2: 5,  phase: 0.00, stops: [[0, c.center, c.centerA], [0.28, c.centerB, c.centerBA], [0.62, c.centerB, 0]] },
-  { x: 0,   y: 1,    d: 975,  x1: 10,  y1: -14, x2: 4,  y2: 6,  phase: 0.20, stops: [[0, c.purple, c.purpleA], [0.58, c.purpleEnd, 0]] },
-  { x: 1,   y: 1,    d: 1005, x1: -12, y1: -10, x2: -3, y2: 8,  phase: 0.45, stops: [[0, c.purple, c.purpleA * 1.07], [0.58, c.purpleEnd, 0]] },
-  { x: 1,   y: 0,    d: 810,  x1: -9,  y1: 10,  x2: 3,  y2: -4, phase: 0.65, stops: [[0, c.tr, c.trA], [0.56, c.trEnd, 0]] },
-  { x: 0,   y: 0,    d: 660,  x1: 8,   y1: 8,   x2: -3, y2: -3, phase: 0.85, stops: [[0, c.tl, c.tlA], [0.56, c.tlEnd, 0]] },
-];
-
 window.VARIANTS = {
   "02-network": {
     title: "Network",
@@ -77,29 +66,6 @@ window.VARIANTS = {
           { color: "lightGlowB", cx: 0.98, cy: 0.62, orbit: 70,  r: 520, a: 0.90, turns: -1, phase: 0.35 },
           { color: "accentMain", cx: 0.55, cy: 1.02, orbit: 80,  r: 560, a: 0.40, turns: 1,  phase: 0.70 },
         ],
-      },
-    },
-  },
-
-  "07-gradient": {
-    title: "Gradient",
-    bg: { type: "www", page: ["devHeroBg", "devHeroBg"], glow: [] },
-    hero: {
-      motion: 0.5,         // share of the CSS drift: the site loops in 36–52 s, the post in 10 s
-      blobs: heroBlobs({
-        center: "glowCenterA", centerA: 0.85, centerB: "glowCenterB", centerBA: 0.45,
-        purple: "glowPurple", purpleA: 0.75, purpleEnd: "glowPurpleDeep",
-        tr: "glowTR", trA: 0.7, trEnd: "glowTRDeep", tl: "glowTL", tlA: 0.5, tlEnd: "glowTLDeep",
-      }),
-    },
-    light: {
-      bg: { page: ["lightPageA", "lightPageB"] },
-      hero: {
-        blobs: heroBlobs({
-          center: "lightGlowA", centerA: 0.8, centerB: "lightGlowB", centerBA: 0.45,
-          purple: "lightPurple", purpleA: 0.75, purpleEnd: "lightPurple",
-          tr: "lightGlowB", trA: 0.8, trEnd: "lightGlowB", tl: "lightGlowA", tlA: 0.45, tlEnd: "lightGlowA",
-        }),
       },
     },
   },

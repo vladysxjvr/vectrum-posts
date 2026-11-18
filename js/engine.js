@@ -79,8 +79,7 @@ window.createEngine = function (cv) {
   }
   function drawBrandBg() {
     ctx.globalCompositeOperation = 'source-over';
-    const page = V.bg.page || T.page;
-    ctx.fillStyle = cssLinear(116, [[.0956, page[0]], [.8604, page[1]]]);
+    ctx.fillStyle = cssLinear(116, [[.0956, T.page[0]], [.8604, T.page[1]]]);
     ctx.fillRect(0, 0, W, H);
   }
   function drawBgGlows(bg, p) {
@@ -114,25 +113,6 @@ window.createEngine = function (cv) {
       const r = b.r * G * (1 + cfg.wobble * loopNoise(p, ox + i * 7.3, 3.1 + i * 2.2, 0.6));
       glow(x, y, r, b.color, b.a, T.glowComp);
     });
-  }
-
-  // ---------- gradient (dev hero blobs) ----------
-  // CSS: drift 0 -> (x1,y1) at 50% -> (x2,y2) at 100%, alternate, ease-in-out per keyframe.
-  // One loop = one full there-and-back, so the path is 0 -> A -> B -> A -> 0 and p=1 equals p=0.
-  // radial-gradient(circle, ...) in a square box sizes to the farthest corner: R = d / √2.
-  function drawHero(cfg, p) {
-    ctx.save(); ctx.globalCompositeOperation = 'source-over'; // stacked like the DOM, not added
-    for (const b of cfg.blobs) {
-      const q = fract(p + b.phase), m = cfg.motion;
-      const dx = kfTrack(q, [[0, 0], [.25, b.x1], [.5, b.x2], [.75, b.x1], [1, 0]]) * m * W / 100;
-      const dy = kfTrack(q, [[0, 0], [.25, b.y1], [.5, b.y2], [.75, b.y1], [1, 0]]) * m * H / 100;
-      const sc = kfTrack(q, [[0, 1], [.25, 1.08], [.5, .96], [.75, 1.08], [1, 1]]);
-      const x = b.x * W + dx, y = b.y * H + dy, R = b.d * G * sc / Math.SQRT2;
-      const g = ctx.createRadialGradient(x, y, 0, x, y, R);
-      for (const [o, c, a] of b.stops) g.addColorStop(o, rgba(c, a));
-      ctx.fillStyle = g; ctx.fillRect(x - R, y - R, 2 * R, 2 * R);
-    }
-    ctx.restore();
   }
 
   // ---------- stars: twinkling sky + falling stars ----------
@@ -326,7 +306,6 @@ window.createEngine = function (cv) {
         drawBgGlows(V.bg, p);
         if (V.aurora) drawAurora(V.aurora, p);
         if (V.network) drawNetwork(V.network, state.network, p);
-        if (V.hero) drawHero(V.hero, p);
         if (V.starfield) drawStarfield(V.starfield, state.starfield, p);
         if (V.meteors) drawMeteors(V.meteors, state.meteors, p);
       }
