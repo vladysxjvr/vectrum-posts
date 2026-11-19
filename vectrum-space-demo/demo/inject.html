@@ -34,6 +34,16 @@
   [data-vs-reveal="wait"] { opacity: 0 !important; translate: 0 18px; }
   [data-vs-reveal="in"] { transition: opacity 1.1s cubic-bezier(.22,1,.36,1) var(--vs-reveal-delay, 0s), translate 1.1s cubic-bezier(.22,1,.36,1) var(--vs-reveal-delay, 0s) !important; }
 </style>
+<!-- reload always opens on the hero: no restored scroll position, no jump to a #section left in the address;
+     ordinary navigation and anchor links are not touched. Runs before the page body, so nothing jumps. -->
+<script>(function () { try {
+  var nav = performance.getEntriesByType('navigation')[0];
+  if (!nav || nav.type !== 'reload') return;
+  history.scrollRestoration = 'manual';
+  if (location.hash) history.replaceState(history.state, '', location.pathname + location.search);
+  var top = function () { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); };
+  top(); addEventListener('DOMContentLoaded', top); addEventListener('load', top);
+} catch (e) {} })();</script>
 <script defer src="/__demo/europe-dots.js"></script>
 <script defer src="/__demo/hero-map.js"></script>
 <script defer src="/__demo/reveal.js"></script>
