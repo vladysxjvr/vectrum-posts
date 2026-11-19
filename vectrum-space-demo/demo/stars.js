@@ -29,7 +29,8 @@
     return { top: a.top - m.top, h: b.bottom - a.top };
   }
   function layout() {
-    const r = region(); if (!r) return false;
+    // other pages share the same particles layer after client-side navigation: no sky there
+    const r = region(); wrap.style.display = r ? '' : 'none'; if (!r) return false;
     regionTop = r.top; regionH = r.h;
     wrap.style.top = regionTop + 'px'; wrap.style.height = regionH + 'px';
     dpr = Math.min(MAX_DPR, devicePixelRatio || 1); W = wrap.clientWidth; VH = innerHeight;
@@ -126,7 +127,10 @@
       addEventListener('scroll', kick, { passive: true });
       reduced.addEventListener('change', kick);
     }
-    if (wrap.parentElement !== layer) { layer.appendChild(wrap); if (layout()) kick(); }
+    if (wrap.parentElement !== layer) { layer.appendChild(wrap); if (layout()) kick(); return; }
+    // same layer, maybe another page (client-side navigation): re-measure when the sections moved or vanished
+    const r = region();
+    if (!r || Math.abs(r.top - regionTop) > 1 || Math.abs(r.h - regionH) > 1) { if (layout()) kick(); }
   }
   new MutationObserver(mount).observe(document.documentElement, { childList: true, subtree: true });
   mount();

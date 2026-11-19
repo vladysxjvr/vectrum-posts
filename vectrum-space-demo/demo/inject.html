@@ -20,6 +20,9 @@
     section[class*="__hero"] > [class*="__actions"] { margin-top: 32px !important; }
   }
   [class*="__heroBackdrop"] > canvas.vs-hero-map { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  /* the band sections ("Зачем мы создаём Vectrum" on About, "Экосистема" on Home) were 10% opaque and melted into the page:
+     denser tint plus thin top/bottom lines, like the bands on dev.vectrumspace.eu */
+  main > [class*="__ecosystemBand"] { background: rgba(34,43,72,.42) !important; border-block: 1px solid rgba(255,255,255,.07); }
   /* stars (demo/stars.js) replace the LandingParticles falling stars; also on phones now.
      overflow: clip instead of hidden, otherwise the sticky canvas inside can't stick */
   main > [class*="LandingParticles-module"][class*="__layer"] { display: block !important; overflow: clip !important; }
