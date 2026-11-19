@@ -5,7 +5,7 @@
   [class*="__heroBackdrop"] > img { display: none; }
   /* hero polish: logo -25%, sign-up no taller than the menu pill (42px), text grouped by meaning:
      headline tight to its lead, buttons further away, the platform card lower */
-  a[aria-label="Vectrum Space"] img { width: 60px !important; height: 60px !important; }
+  a[aria-label="Vectrum Space"] img { width: 40px !important; height: 40px !important; object-fit: contain; }
   /* no `display` here: the site hides this button on phones */
   header [class*="__accountActions"] a[class*="__primary"] { min-height: 42px !important; height: 42px; padding-block: 0 !important; padding-inline: 20px !important; align-items: center; }
   section[class*="__hero"] > h1 { margin-top: 24px !important; margin-bottom: 12px !important; }
@@ -13,7 +13,7 @@
   section[class*="__hero"] > [class*="__heroNote"] { margin-top: 16px !important; }
   section[class*="__hero"] > [class*="__network"] { margin-top: clamp(48px, 9vh, 96px) !important; }
   @media (max-width: 900px) {
-    a[aria-label="Vectrum Space"] img { width: 32px !important; height: 32px !important; }
+    a[aria-label="Vectrum Space"] img { width: 28px !important; height: 28px !important; }
     section[class*="__hero"] > [class*="__actions"] { margin-top: 32px !important; }
   }
   [class*="__heroBackdrop"] > canvas.vs-hero-map { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
