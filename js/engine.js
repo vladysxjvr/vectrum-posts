@@ -187,6 +187,72 @@ window.createEngine = function (cv) {
     }
   }
 
+  // ---------- route (prototype): dot map, two cities, a line between them ----------
+  function setupRoute(cfg) {
+    const P = cfg.place[H > W ? '9x16' : '1x1'], k = cfg.pxPerDeg * 180 / Math.PI, merc = lat => Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360));
+    const sq = ([x, y]) => [P.x + x * P.s, P.y + y * P.s]; // 1080 square -> frame
+    const proj = ([lon, lat]) => sq([cfg.at[0] + (lon - cfg.center[0]) * cfg.pxPerDeg, cfg.at[1] - (merc(lat) - merc(cfg.center[1])) * k]);
+    const cities = cfg.cities.map(c => ({ ...c, p: proj(c.ll) }));
+    const [A, B] = cities.map(c => c.p), len = Math.hypot(B[0] - A[0], B[1] - A[1]);
+    let nx = -(B[1] - A[1]) / len, ny = (B[0] - A[0]) / len; if (ny > 0) { nx = -nx; ny = -ny; } // arc bows upwards
+    const ctrl = [(A[0] + B[0]) / 2 + nx * len * cfg.bend, (A[1] + B[1]) / 2 + ny * len * cfg.bend];
+    const dots = [];
+    let far = 1;
+    for (const [x0, y0, coast] of window.EUROPE_DOTS || []) {
+      const [x, y] = sq([x0, y0]); if (x < -10 || x > W + 10 || y < -10 || y > H + 10) continue;
+      const d = Math.hypot(x - A[0], y - A[1]); far = Math.max(far, d);
+      const edge = smooth(P.y, P.y + 220 * P.s, y); // the dot square ends in a straight line at the top: fade it
+      dots.push({ x, y, a: lerp(cfg.dot.alpha, cfg.dot.coastAlpha, coast) * edge, d });
+    }
+    dots.forEach(o => o.d /= far);
+    return { cities, A, B, ctrl, dots, s: P.s };
+  }
+  const qbez = (A, Cc, B, t) => { const u = 1 - t; return [u * u * A[0] + 2 * u * t * Cc[0] + t * t * B[0], u * u * A[1] + 2 * u * t * Cc[1] + t * t * B[1]]; };
+  function drawRoute(cfg, st, p) {
+    const out = 1 - smooth(cfg.out[0], cfg.out[1], p), s = st.s;
+    if (out <= 0) return;
+    // map: dots ripple in from city A
+    const [m0, m1] = cfg.mapIn, span = (m1 - m0) * 0.75;
+    for (const o of st.dots) {
+      const t0 = m0 + o.d * span, a = o.a * smooth(t0, t0 + (m1 - m0) * 0.25, p) * out;
+      if (a < 0.01) continue;
+      ctx.fillStyle = rgba(cfg.dot.color, a); ctx.beginPath(); ctx.arc(o.x, o.y, cfg.dot.r * s, 0, TAU); ctx.fill();
+    }
+    // line A -> B, drawn progressively, with a glowing head
+    const lu = clamp((p - cfg.line[0]) / (cfg.line[1] - cfg.line[0])), e = easeInOut(lu);
+    if (e > 0) {
+      ctx.strokeStyle = rgba(cfg.lineColor, cfg.lineAlpha * out); ctx.lineWidth = cfg.lineW * s; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(st.A[0], st.A[1]);
+      const N = 80; for (let i = 1; i <= N; i++) { const q = qbez(st.A, st.ctrl, st.B, e * i / N); ctx.lineTo(q[0], q[1]); }
+      ctx.stroke();
+      if (lu < 1) { const h = qbez(st.A, st.ctrl, st.B, e); glow(h[0], h[1], 22 * s, cfg.lineColor, 0.8 * out, T.glowComp); }
+    }
+    // a light runs along the finished line once
+    const tu = (p - cfg.travel[0]) / (cfg.travel[1] - cfg.travel[0]);
+    if (tu > 0 && tu < 1) {
+      const h = qbez(st.A, st.ctrl, st.B, easeInOut(tu)), f = kfTrack(tu, [[0, 0], [0.15, 1], [0.85, 1], [1, 0]]) * out;
+      glow(h[0], h[1], 26 * s, cfg.lineColor, 0.7 * f, T.glowComp);
+      ctx.fillStyle = rgba(cfg.lineColor, f); ctx.beginPath(); ctx.arc(h[0], h[1], 2.6 * s, 0, TAU); ctx.fill();
+    }
+    // cities: pop in, a ring flies out, a soft breathing halo, label fades in
+    for (const c of st.cities) {
+      const u = (p - c.at) * C.seconds; if (u < 0) continue; // seconds since the city appeared
+      const [x, y] = c.p, pop = kfTrack(clamp(u / 0.35), [[0, 0], [0.6, 1.35], [1, 1]]);
+      const ru = clamp(u / 1.2);
+      if (ru < 1) { ctx.strokeStyle = rgba(cfg.ring, 0.7 * (1 - ru) * out); ctx.lineWidth = 1.4 * s; ctx.beginPath(); ctx.arc(x, y, (cfg.pointR + ru * cfg.ringMax) * s, 0, TAU); ctx.stroke(); }
+      glow(x, y, 34 * s, cfg.point, (0.35 + 0.1 * Math.sin(TAU * u / 2)) * pop * out, T.glowComp);
+      ctx.fillStyle = rgba(cfg.point, out); ctx.beginPath(); ctx.arc(x, y, cfg.pointR * s * pop, 0, TAU); ctx.fill();
+      ctx.strokeStyle = rgba(T.overlay, 0.9 * out); ctx.lineWidth = 2 * s; ctx.stroke();
+      const la = smooth(0.15, 0.6, u) * out;
+      if (la > 0) {
+        ctx.font = `600 ${Math.round(cfg.labelSize * s)}px Raleway, Arial, sans-serif`; ctx.textBaseline = 'middle';
+        ctx.textAlign = c.label === 'left' ? 'right' : 'left'; ctx.fillStyle = rgba(cfg.label, la);
+        ctx.fillText(c.name, x + (c.label === 'left' ? -1 : 1) * (cfg.pointR + 12) * s, y);
+        ctx.textAlign = 'left';
+      }
+    }
+  }
+
   // ---------- network ----------
   function setupNetwork(cfg, rand) {
     const area = (W * H) / (1080 * 1080), count = Math.round(cfg.nodes * area), hubs = Math.round(cfg.hubs * area), pulseCount = Math.round(cfg.pulses * area);
@@ -296,6 +362,7 @@ window.createEngine = function (cv) {
       if (V.network) state.network = setupNetwork(V.network, rand);
       if (V.starfield) state.starfield = setupStarfield(V.starfield, rand);
       if (V.meteors) state.meteors = setupMeteors(V.meteors, rand);
+      if (V.route) state.route = setupRoute(V.route);
     },
     // o: { grain, bg, zoom, panX, panY, dim, anim, textPos, text, logo } ; returns text layout info
     draw(frame, o = {}) {
@@ -308,6 +375,7 @@ window.createEngine = function (cv) {
         if (V.network) drawNetwork(V.network, state.network, p);
         if (V.starfield) drawStarfield(V.starfield, state.starfield, p);
         if (V.meteors) drawMeteors(V.meteors, state.meteors, p);
+        if (V.route) drawRoute(V.route, state.route, p);
       }
       ctx.globalCompositeOperation = 'source-over';
       if (o.grain) applyGrain(frame, C.grain);

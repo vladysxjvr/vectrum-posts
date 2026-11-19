@@ -70,6 +70,35 @@ window.VARIANTS = {
     },
   },
 
+  // PROTOTYPE: the map appears, city A, city B, then a thin line joins them; everything fades out before the seam.
+  "09-route": {
+    title: "Route",
+    bg: { type: "www", glow: [{ color: "glowCenterB", x: 0.6, y: 0.75, r: 640, a: 0.18, breathe: 0.2 }] },
+    route: {
+      // dots come from vectrum-bg (Natural Earth, Mercator, Kraków at `at` in a 1080×1080 square);
+      // place = scale and offset of that square per format
+      center: [19.94, 50.06], at: [690, 700], pxPerDeg: 19.6,
+      place: { "9x16": { s: 1.25, x: -180, y: 600 }, "1x1": { s: 1, x: 0, y: 100 } },
+      dot: { r: 1.5, color: "wwwLine", alpha: 0.42, coastAlpha: 0.7 },
+      cities: [
+        { name: "Kraków", ll: [19.94, 50.06], at: 0.17, label: "right" },
+        { name: "Paris",  ll: [2.35, 48.86],  at: 0.29, label: "left" },
+      ],
+      // timeline in loop fractions (10 s loop: 0.1 = 1 s)
+      mapIn: [0.0, 0.14],  // dots ripple out from the first city
+      line: [0.38, 0.60],  // the line draws from A to B
+      travel: [0.62, 0.82], // a light runs along the finished line once
+      out: [0.86, 0.98],   // everything fades away, frame 300 = frame 0 = empty background
+      point: "accentMain", pointR: 7, ring: "accentMain", ringMax: 46,
+      lineColor: "accentMain", lineAlpha: 0.9, lineW: 1.6, bend: 0.18,
+      label: "textSub", labelSize: 28,
+    },
+    light: {
+      bg: { glow: [{ color: "lightGlowB", x: 0.6, y: 0.75, r: 640, a: 0.5, breathe: 0.2 }] },
+      route: { dot: { r: 1.5, color: "accentMain", alpha: 0.28, coastAlpha: 0.45 }, label: "textDarkSub" },
+    },
+  },
+
   "08-stars": {
     title: "Stars",
     bg: { type: "www", glow: [{ color: "glowCenterB", x: 0.80, y: 0.86, r: 640, a: 0.22, breathe: 0.25 }] },
