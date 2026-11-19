@@ -70,7 +70,7 @@ window.VARIANTS = {
     },
   },
 
-  // PROTOTYPE: the map appears, city A, city B, then a thin line joins them; everything fades out before the seam.
+  // Route: the map appears, city A, city B, then a thin line joins them; everything fades out before the seam.
   "09-route": {
     title: "Route",
     bg: { type: "www", glow: [{ color: "glowCenterB", x: 0.6, y: 0.75, r: 640, a: 0.18, breathe: 0.2 }] },
