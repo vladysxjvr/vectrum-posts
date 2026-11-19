@@ -77,20 +77,22 @@ window.VARIANTS = {
     starfield: {
       count: 230,          // per 1080×1080, scaled by frame area
       big: 0.1,            // share of larger stars with a halo and a cross flare
-      colors: [["textPrimary", 0.7], ["statusBlueText", 0.2], ["accentMain", 0.1]],
-      alpha: 0.95,
+      colors: [["statusBlueText", 0.45], ["markerTone", 0.3], ["accentMain", 0.25]],
+      alpha: 0.6,
+      flare: 3,            // cross flare arm length, in star radii
+      flareAlpha: 0.45,
       calm: 0.55,          // alpha at the calmest point of the safe-zone mask
     },
     // falling stars, after 01-fallen-stars: core + blurred tail, wrap across the loop seam
     meteors: {
-      count: 4, flight: 1.8, travel: 640, angleDeg: 26, scale: 2.2, tailMax: 220, opacity: 1,
+      count: 4, flight: 1.8, travel: 640, angleDeg: 26, scale: 2.2, tailMax: 220, opacity: 0.7,
       area: { x0: 0.06, x1: 0.62, y0: 0.05, y1: 0.55 },
-      core: "textPrimary", tail: "accentMain", glow: "accentMain",
+      core: "statusBlueText", tail: "accentMain", glow: "accentMain",
     },
     light: {
       bg: { glow: [{ color: "lightGlowB", x: 0.80, y: 0.86, r: 640, a: 0.6, breathe: 0.25 }] },
-      starfield: { colors: [["accentMain", 0.6], ["wwwBlue", 0.25], ["textDark", 0.15]], alpha: 0.85 },
-      meteors: { core: "accentMain", tail: "accentMain", glow: "lightGlowA" },
+      starfield: { colors: [["accentMain", 0.6], ["wwwBlue", 0.25], ["statusBlueText", 0.15]], alpha: 0.6 },
+      meteors: { core: "accentMain", tail: "accentMain", glow: "lightGlowA", opacity: 0.75 },
     },
   },
 };

@@ -139,12 +139,12 @@ window.createEngine = function (cv) {
       const a = cfg.alpha * (s.base + (1 - s.base) * tw) * lerp(cfg.calm, 1, mask(s.x, s.y));
       if (a < 0.01) continue;
       if (s.big) {
-        glow(s.x, s.y, 14 * s.r * G, s.color, a * 0.35, T.glowComp);
-        const L = s.r * 6 * (0.6 + 0.4 * tw);  // cross flare grows with brightness
+        glow(s.x, s.y, 14 * s.r * G, s.color, a * 0.3, T.glowComp);
+        const L = s.r * cfg.flare * (0.6 + 0.4 * tw);  // cross flare grows with brightness
         ctx.lineWidth = 0.8;
         for (const [ux, uy] of [[1, 0], [0, 1]]) {
           const g = ctx.createLinearGradient(s.x - ux * L, s.y - uy * L, s.x + ux * L, s.y + uy * L);
-          g.addColorStop(0, rgba(s.color, 0)); g.addColorStop(0.5, rgba(s.color, a * 0.8)); g.addColorStop(1, rgba(s.color, 0));
+          g.addColorStop(0, rgba(s.color, 0)); g.addColorStop(0.5, rgba(s.color, a * cfg.flareAlpha)); g.addColorStop(1, rgba(s.color, 0));
           ctx.strokeStyle = g; ctx.beginPath(); ctx.moveTo(s.x - ux * L, s.y - uy * L); ctx.lineTo(s.x + ux * L, s.y + uy * L); ctx.stroke();
         }
       }
