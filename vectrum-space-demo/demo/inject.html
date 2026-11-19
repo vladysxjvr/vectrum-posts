@@ -4,6 +4,12 @@
   [class*="__heroSurface"] { min-height: 100vh; min-height: 100svh; }
   [class*="__heroBackdrop"] > img { display: none; }
   [class*="__heroBackdrop"] > canvas.vs-hero-map { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  /* stars (demo/stars.js) replace the LandingParticles falling stars; also on phones now.
+     overflow: clip instead of hidden, otherwise the sticky canvas inside can't stick */
+  main > [class*="LandingParticles-module"][class*="__layer"] { display: block !important; overflow: clip !important; }
+  main > [class*="LandingParticles-module"][class*="__layer"] > [class*="__particle"] { display: none !important; }
+  .vs-stars { position: absolute; left: 0; right: 0; pointer-events: none; }
+  .vs-stars > canvas { position: sticky; top: 0; display: block; width: 100%; }
   /* scroll reveal (demo/reveal.js), timing from dev.vectrumspace.eu; `translate` so it never fights the site's own transforms */
   [data-vs-reveal="wait"] { opacity: 0 !important; translate: 0 18px; }
   [data-vs-reveal="in"] { transition: opacity 1.1s cubic-bezier(.22,1,.36,1) var(--vs-reveal-delay, 0s), translate 1.1s cubic-bezier(.22,1,.36,1) var(--vs-reveal-delay, 0s) !important; }
@@ -11,3 +17,4 @@
 <script defer src="/__demo/europe-dots.js"></script>
 <script defer src="/__demo/hero-map.js"></script>
 <script defer src="/__demo/reveal.js"></script>
+<script defer src="/__demo/stars.js"></script>
