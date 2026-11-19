@@ -1,7 +1,8 @@
 <!-- demo: full-screen hero with the animated dot map (vectrum-space-demo/demo) -->
 <style>
   /* only the height changes: header and hero keep the live site's layout and position (no flex, it squeezes the header) */
-  [class*="__heroSurface"] { min-height: 100vh; min-height: 100svh; }
+  /* only on the home page: on About / Contact / Pricing the surface holds just the header and became an empty screen */
+  [class*="__heroSurface"]:has(> section[class*="__hero"]) { min-height: 100vh; min-height: 100svh; }
   [class*="__heroBackdrop"] > img { display: none; }
   /* hero polish: logo -25%, sign-up no taller than the menu pill (42px), text grouped by meaning:
      headline tight to its lead, buttons further away, the platform card lower */
