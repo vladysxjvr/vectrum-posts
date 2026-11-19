@@ -1,0 +1,9 @@
+{
+  "_comment": "Text fixes laid over the landing API of the mirror (server.js merges them into /api/public/landing). Kept here so a fresh mirror does not lose them.",
+  "ru": {
+    "copy.heroNote": "Сделано для перевозок — чтобы работать было проще."
+  },
+  "uk": {
+    "copy.heroNote": "Зроблено для перевезень — щоб працювати було простіше."
+  }
+}

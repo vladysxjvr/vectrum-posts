@@ -43,7 +43,14 @@ http.createServer((req, res) => {
   if (p === '/_next/image') return file(res, ROOT, url.searchParams.get('url') || '');
   if (p === '/api/public/landing') {
     const lang = url.searchParams.get('language'), rel = M.api[lang] || M.api.en;
-    return file(res, ROOT, rel);
+    // demo/texts.json: text fixes per language laid over the saved texts
+    let fix = {}; try { fix = JSON.parse(fs.readFileSync(path.join(DEMO, 'texts.json'), 'utf8'))[M.api[lang] ? lang : 'en'] || {}; } catch {}
+    if (!Object.keys(fix).length) return file(res, ROOT, rel);
+    return fs.readFile(path.join(ROOT, rel), 'utf8', (e, t) => {
+      if (e) return send(res, 404, 'not found', 'text/plain');
+      const j = JSON.parse(t); Object.assign(j.texts, fix);
+      send(res, 200, JSON.stringify(j), TYPES['.json'], 'no-cache');
+    });
   }
   if (p.startsWith('/api/')) return send(res, 503, JSON.stringify({ error: 'demo copy' }), 'application/json');
   const page = M.pages[p.replace(/\/$/, '') || '/'];
