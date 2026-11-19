@@ -4,6 +4,10 @@
   [class*="__heroSurface"] { min-height: 100vh; min-height: 100svh; }
   [class*="__heroBackdrop"] > img { display: none; }
   [class*="__heroBackdrop"] > canvas.vs-hero-map { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  /* scroll reveal (demo/reveal.js), timing from dev.vectrumspace.eu; `translate` so it never fights the site's own transforms */
+  [data-vs-reveal="wait"] { opacity: 0 !important; translate: 0 18px; }
+  [data-vs-reveal="in"] { transition: opacity 1.1s cubic-bezier(.22,1,.36,1) var(--vs-reveal-delay, 0s), translate 1.1s cubic-bezier(.22,1,.36,1) var(--vs-reveal-delay, 0s) !important; }
 </style>
 <script defer src="/__demo/europe-dots.js"></script>
 <script defer src="/__demo/hero-map.js"></script>
+<script defer src="/__demo/reveal.js"></script>
