@@ -22,7 +22,8 @@
   let visible = false, raf = 0, retry = 0, last = 0, t0 = performance.now();
 
   function region() {
-    const main = layer.parentElement, first = main.querySelector('section[class*="__capabilities"]') || main.querySelector('section[class*="__pricing"]');
+    // home page only (QA #1): /pricing has the same pricing -> banner sections but should look like About and Contact
+    const main = layer.parentElement, first = main.querySelector('section[class*="__capabilities"]');
     const lastSec = main.querySelector('section[class*="__banner"]') || main.querySelector('section[class*="__faq"]');
     if (!first || !lastSec) return null;
     const m = main.getBoundingClientRect(), a = first.getBoundingClientRect(), b = lastSec.getBoundingClientRect();
