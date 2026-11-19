@@ -8,6 +8,8 @@
   a[aria-label="Vectrum Space"] img { width: 40px !important; height: 40px !important; object-fit: contain; }
   /* no `display` here: the site hides this button on phones */
   header [class*="__accountActions"] a[class*="__primary"] { min-height: 42px !important; height: 42px; padding-block: 0 !important; padding-inline: 20px !important; align-items: center; }
+  /* hero block centred under the header (demo/hero-center.js measures it; until then an estimate: ~760px of header + block) */
+  [class*="__heroSurface"] > section[class*="__hero"] { padding-top: var(--vs-hero-pad, max(20px, calc((100svh - 760px) / 2))) !important; }
   section[class*="__hero"] > h1 { margin-top: 24px !important; margin-bottom: 12px !important; }
   section[class*="__hero"] > [class*="__actions"] { margin-top: 40px !important; }
   section[class*="__hero"] > [class*="__heroNote"] { margin-top: 16px !important; }
@@ -61,3 +63,4 @@
 <script defer src="/__demo/hero-map.js"></script>
 <script defer src="/__demo/reveal.js"></script>
 <script defer src="/__demo/stars.js"></script>
+<script defer src="/__demo/hero-center.js"></script>
