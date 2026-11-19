@@ -1,0 +1,10 @@
+{
+  "name": "vectrum-space-demo",
+  "private": true,
+  "description": "Copy of the live www.vectrumspace.eu for trying out a new hero background",
+  "scripts": {
+    "start": "node server.js",
+    "mirror": "node tools/mirror.js"
+  },
+  "engines": { "node": ">=20" }
+}

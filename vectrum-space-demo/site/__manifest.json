@@ -1,0 +1,55 @@
+{
+  "pages": {
+    "/": {
+      "html": "__pages/index.html",
+      "rsc": "__pages/index.rsc",
+      "rscType": "text/x-component"
+    },
+    "/about": {
+      "html": "__pages/about.html",
+      "rsc": "__pages/about.rsc",
+      "rscType": "text/x-component"
+    },
+    "/pricing": {
+      "html": "__pages/pricing.html",
+      "rsc": "__pages/pricing.rsc",
+      "rscType": "text/x-component"
+    },
+    "/contact": {
+      "html": "__pages/contact.html",
+      "rsc": "__pages/contact.rsc",
+      "rscType": "text/x-component"
+    }
+  },
+  "api": {
+    "ru": "__api/landing-ru.json",
+    "en": "__api/landing-en.json",
+    "pl": "__api/landing-pl.json",
+    "de": "__api/landing-de.json",
+    "uk": "__api/landing-uk.json"
+  },
+  "fetchedAt": "2026-11-19T14:38:27.399Z",
+  "origin": "https://www.vectrumspace.eu",
+  "missing": [
+    "404 /width=device-width,%20initial-scale=1",
+    "404 /Fleet,%20tracking,%20and%20TMS%20control%20center",
+    "404 /_next/static/chunks/'+tm(e)+'",
+    "404 /_next/static/chunks/'+r+'",
+    "404 /_next/static/chunks/'+tm(n.imageSrcSet)+'",
+    "404 /_next/static/chunks/$%7Bt%7D",
+    "404 /_next/static/chunks/$%7Be%7D",
+    "404 /_next/static/chunks/%23b",
+    "404 /_next/static/chunks/$%7Bj%7D",
+    "404 /_next/static/chunks/t,i,r",
+    "404 /_next/static/chunks/this.tiles,this.map.getPixelRatio(",
+    "404 /_next/static/chunks/$%7BP%7D",
+    "404 /_next/static/chunks/');r%3Cn.length-1;r++)this.push(n[r]),this.push(",
+    "404 /_next/static/chunks/');e%3Cr.length-1;e++)this.push(r[e]),this.push(",
+    "404 /_next/static/chunks/',z(y),'",
+    "404 /_next/static/chunks/',z(g),'",
+    "404 /_next/static/chunks/'),eh=B('%3Cscript%20type=",
+    "404 /_next/static/chunks/'),ef=B('%20nonce=",
+    "404 /_next/static/chunks/'),nf=B('",
+    "404 /_next/static/chunks/'),nP=B("
+  ]
+}
