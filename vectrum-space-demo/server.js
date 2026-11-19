@@ -16,7 +16,8 @@ const TYPES = {
   '.mp4': 'video/mp4', '.webm': 'video/webm',
 };
 // demo additions (e.g. the new hero background) are injected into every page from ./demo/inject.html
-const inject = () => { try { return fs.readFileSync(path.join(DEMO, 'inject.html'), 'utf8'); } catch { return ''; } };
+// comments and whitespace between tags are dropped: stray text nodes in <head> break React hydration
+const inject = () => { try { return fs.readFileSync(path.join(DEMO, 'inject.html'), 'utf8').replace(/<!--[\s\S]*?-->/g, '').replace(/>\s+</g, '><').trim(); } catch { return ''; } };
 
 // a copy of the live site on another address must stay out of search engines
 function send(res, code, body, type, cache = 'no-cache') {
@@ -28,7 +29,9 @@ function file(res, base, rel) {
   fs.readFile(f, (err, buf) => {
     if (err) return send(res, 404, 'not found', 'text/plain');
     const immutable = rel.startsWith('/_next/static/') || rel.startsWith('_next/static/');
-    send(res, 200, buf, TYPES[path.extname(f).toLowerCase()] || 'application/octet-stream', immutable ? 'public, max-age=31536000, immutable' : 'public, max-age=300');
+    // demo files change while we work on them: never cached
+    const cache = base === DEMO ? 'no-cache' : immutable ? 'public, max-age=31536000, immutable' : 'public, max-age=300';
+    send(res, 200, buf, TYPES[path.extname(f).toLowerCase()] || 'application/octet-stream', cache);
   });
 }
 
@@ -50,7 +53,8 @@ http.createServer((req, res) => {
     }
     return fs.readFile(path.join(ROOT, page.html), 'utf8', (e, html) => {
       if (e) return send(res, 500, 'missing page', 'text/plain');
-      send(res, 200, html.replace('</body>', inject() + '</body>'), TYPES['.html']);
+      // into <head>: extra nodes in <body> break React hydration (error #418)
+      send(res, 200, html.replace('</head>', inject() + '</head>'), TYPES['.html']);
     });
   }
   file(res, ROOT, p);

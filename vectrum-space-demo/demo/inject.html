@@ -1,0 +1,10 @@
+<!-- demo: full-screen hero with the animated dot map (vectrum-space-demo/demo) -->
+<style>
+  [class*="__heroSurface"] { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; }
+  /* the hero block itself stays as it is (its margins still collapse), it is only centred in the free height */
+  [class*="__heroSurface"] > section[class*="__hero"] { margin-block: auto; }
+  [class*="__heroBackdrop"] > img { display: none; }
+  [class*="__heroBackdrop"] > canvas.vs-hero-map { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+</style>
+<script defer src="/__demo/europe-dots.js"></script>
+<script defer src="/__demo/hero-map.js"></script>
