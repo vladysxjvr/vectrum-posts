@@ -75,6 +75,27 @@
         cta: 'Попробовать бесплатно',
       },
       more: 'Посмотреть, как это работает',
+      how: {
+        doc: 'Как работает Vectrum Space', eyebrow: 'Как это работает', title: ['Vectrum', 'изнутри.'],
+        lead: 'Настоящие экраны платформы. Так выглядит рабочий день логиста, механика и владельца: от заказа и карты до сервиса и цифр компании.',
+        note: 'Экраны сняты на демо-данных: имена, компании и номера машин выдуманы.', navTitle: 'Разделы',
+        ctaTitle: ['Хотите увидеть', 'на своих данных?'], ctaLead: 'Покажем Vectrum на примере вашего автопарка и поможем перенести машины, водителей и клиентов.',
+        start: 'Начать бесплатно', demo: 'Записаться на демо',
+        steps: [
+          ['tracking', 'Трекинг', ['Вся перевозка', 'на одной карте'], 'Заказы слева, машины и маршрут на карте справа. Выбираете заказ и видите, где машина, сколько осталось ехать и кто за рулём.',
+            ['Маршрут и расстояние с учётом грузовых ограничений', 'Статусы заказов: в пути, загрузка, задержка', 'Чат и звонок водителю прямо из карточки заказа']],
+          ['orders', 'Заказы TMS', ['Что требует внимания', 'сегодня'], 'Сводка показывает, сколько перевозок в работе, какие задерживаются и какие ждут назначения. Блок «Требуют внимания» подсказывает, с чего начать день.',
+            ['Просроченные доставки и устаревшая телеметрия', 'Последние перевозки с клиентом и статусом', 'ИИ-импорт заказа вместо ручного ввода']],
+          ['planning', 'Планирование', ['Неделя автопарка', 'в одном календаре'], 'По строкам машины и водители, по столбцам дни. Сразу видно, кто свободен, где конфликт расписания и какие заказы остались без машины.',
+            ['Вид на неделю, месяц или списком', 'Очередь заказов без машины или времени', 'Счётчики: требуют назначения, задерживаются, конфликты']],
+          ['fleet', 'Флот', ['Карточка', 'каждой машины'], 'Состояние всего флота: статус, текущий рейс, груз и полуприцеп. В карточке машины назначенный водитель, ответственный диспетчер, документы и расчёты.',
+            ['Фильтры: активные, в сервисе, неисправные', 'Документы и расчёты по машине', 'Звонок водителю из карточки']],
+          ['maintenance', 'Обслуживание', ['Сервис, о котором', 'не нужно помнить'], 'Техосмотр, страховка и плановое обслуживание по каждой машине. Критичные сроки подсвечены красным, а сервисная задача создаётся прямо из предупреждения.',
+            ['Очередь сервиса и ближайшие сроки', 'Коды диагностики (DTC)', 'Сервисная задача в один клик']],
+          ['analytics', 'Аналитика', ['Цифры компании', 'без Excel'], 'Сколько машин в рейсе, свободно и на сервисе, сколько заказов открыто и закрыто. Финансовый обзор показывает фрахт и маржу по каждой машине за любой период.',
+            ['Операционные показатели по всему автопарку', 'Фрахт и маржа по машинам', 'Экспорт в CSV и финансовые отчёты']],
+        ],
+      },
       trial: ['Бесплатный период', 'Без привязки карты', 'Помесячная оплата, отмена в любой момент'],
       trust: {
         eyebrow: 'Безопасность', title: ['Ваши данные', 'под защитой.'],
@@ -137,6 +158,27 @@
         cta: 'Try it free',
       },
       more: 'See how it works',
+      how: {
+        doc: 'How Vectrum Space works', eyebrow: 'How it works', title: ['Vectrum', 'from the inside.'],
+        lead: 'Real screens of the platform. This is a working day of a dispatcher, a mechanic and an owner: from the order and the map to service and company numbers.',
+        note: 'Screens are taken on demo data: names, companies and plates are made up.', navTitle: 'Sections',
+        ctaTitle: ['Want to see it', 'with your data?'], ctaLead: 'We will show Vectrum on your own fleet and help you move vehicles, drivers and customers.',
+        start: 'Start for free', demo: 'Book a demo',
+        steps: [
+          ['tracking', 'Tracking', ['The whole trip', 'on one map'], 'Orders on the left, trucks and the route on the map. Pick an order and see where the truck is, how far it still goes and who is driving.',
+            ['Route and distance with truck restrictions', 'Order status: on the road, loading, delayed', 'Chat and call the driver from the order card']],
+          ['orders', 'TMS orders', ['What needs attention', 'today'], 'The overview shows how many trips are running, which are late and which wait for a truck. “Needs attention” tells you where to start the day.',
+            ['Late deliveries and stale telemetry', 'Latest trips with customer and status', 'AI order import instead of typing']],
+          ['planning', 'Planning', ['The fleet’s week', 'in one calendar'], 'Rows are trucks and drivers, columns are days. You see who is free, where the schedule clashes and which orders have no truck yet.',
+            ['Week, month or list view', 'Queue of orders without a truck or time', 'Counters: to assign, delayed, conflicts']],
+          ['fleet', 'Fleet', ['A card for', 'every vehicle'], 'The state of the whole fleet: status, current trip, cargo and trailer. The vehicle card holds the driver, the dispatcher, documents and costs.',
+            ['Filters: active, in service, faulty', 'Documents and costs per vehicle', 'Call the driver from the card']],
+          ['maintenance', 'Maintenance', ['Service you', 'don’t have to remember'], 'Inspection, insurance and planned service for every vehicle. Critical dates are red, and a service task is created right from the alert.',
+            ['Service queue and upcoming dates', 'Diagnostic trouble codes (DTC)', 'Service task in one click']],
+          ['analytics', 'Analytics', ['Company numbers', 'without Excel'], 'How many trucks are on the road, free and in service, how many orders are open and closed. The finance overview shows freight and margin per vehicle.',
+            ['Operating figures for the whole fleet', 'Freight and margin per vehicle', 'CSV export and finance reports']],
+        ],
+      },
       trial: ['Free trial', 'No card required', 'Monthly billing, cancel any time'],
       trust: {
         eyebrow: 'Security', title: ['Your data,', 'protected.'],
@@ -248,7 +290,61 @@
   // the FAQ cards are styled by inject.html through `section[class*="__faq"] details`, ours get the same look
   const faqItems = list => list.map(([q, a]) => el(`<details data-vs2="faq"><summary>${q}</summary><p>${a}</p></details>`));
 
+  // /how-it-works: the About page shell (server.js) with its sections hidden; the screens go under the site's own header
+  function howPage(x) {
+    const s = el(`<div class="vs2h" data-vs2="how">
+      <section class="vs2 vs2h-hero"><span class="vs2-eyebrow">${x.eyebrow}</span><h1>${x.title[0]} <em>${x.title[1]}</em></h1>
+        <p class="vs2-lead">${x.lead}</p><p class="vs2h-note">${x.note}</p></section>
+      <div class="vs2h-body">
+        <nav class="vs2h-nav" aria-label="${x.navTitle}"><span>${x.navTitle}</span>
+          ${x.steps.map(([id, tag], i) => `<a href="#${id}"><b>0${i + 1}</b>${tag}</a>`).join('')}</nav>
+        <div class="vs2h-steps">${x.steps.map(([id, tag, h, p, li], i) => `
+          <section class="vs2h-step" id="${id}">
+            <div class="vs2h-copy"><div><span class="vs2-step-num">0${i + 1}</span><span class="vs2-step-day">${tag}</span><h2>${h[0]} <em>${h[1]}</em></h2></div>
+              <div><p>${p}</p><ul>${li.map(t => `<li>${svg('check')}<span>${t}</span></li>`).join('')}</ul></div></div>
+            <figure class="vs2h-shot" data-src="/__demo/how/${id}.jpg"><div class="vs2h-bar"><i></i><i></i><i></i></div>
+              <img src="/__demo/how/${id}.jpg" alt="${tag}" width="1568" height="733" decoding="async"></figure>
+          </section>`).join('')}</div>
+      </div>
+      <section class="vs2 vs2h-cta"><div class="vs2-card">
+        <h2>${x.ctaTitle[0]} <em>${x.ctaTitle[1]}</em></h2><p>${x.ctaLead}</p>
+        <div><a class="vs2-btn" href="${REGISTER}">${x.start}${svg('arrow')}</a><a class="vs2-btn ghost" href="mailto:sales@vectrumspace.eu?subject=Demo%20Vectrum%20Space">${x.demo}</a></div>
+      </div></section>
+      <div class="vs2h-zoom" hidden><img alt=""></div>
+    </div>`);
+    // the section in view is highlighted in the side menu
+    const links = [...s.querySelectorAll('.vs2h-nav a')];
+    const spy = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id));
+    }), { rootMargin: '-35% 0px -60% 0px' });
+    s.querySelectorAll('.vs2h-step').forEach(st => spy.observe(st));
+    links[0].classList.add('on');
+    // a screen opens full size on click, Esc or a click closes it
+    const zoom = s.querySelector('.vs2h-zoom');
+    s.addEventListener('click', e => {
+      const f = e.target.closest('.vs2h-shot');
+      if (f) { zoom.firstElementChild.src = f.dataset.src; zoom.hidden = false; } else if (e.target.closest('.vs2h-zoom')) zoom.hidden = true;
+    });
+    addEventListener('keydown', e => { if (e.key === 'Escape') zoom.hidden = true; });
+    return s;
+  }
+
+  function mountHow() {
+    const main = document.querySelector('main'), hero = main && main.querySelector(':scope > [class*="__heroSurface"]');
+    if (!hero) return;
+    const lang = document.documentElement.lang, x = t().how;
+    document.title = x.doc;
+    if (main.dataset.vs2 === 'how-' + lang && main.querySelector('[data-vs2="how"]')) return;
+    main.querySelectorAll('[data-vs2]').forEach(n => n.remove());
+    main.dataset.vs2 = 'how-' + lang;
+    hero.after(howPage(x));
+    if (location.hash) { const target = document.getElementById(location.hash.slice(1)); if (target) target.scrollIntoView(); }
+  }
+
   function mount() {
+    if (location.pathname === '/how-it-works') return mountHow();
+    // client-side navigation left /how-it-works: its "hide the About sections" style must not stay
+    const hs = document.getElementById('vs2-how-style'); if (hs) hs.remove();
     if (location.pathname !== '/') return;
     const main = document.querySelector('main');
     const band = main && main.querySelector(':scope > [class*="__ecosystemBand"]');

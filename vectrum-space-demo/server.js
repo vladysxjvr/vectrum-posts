@@ -55,9 +55,10 @@ http.createServer((req, res) => {
     });
   }
   if (p.startsWith('/api/')) return send(res, 503, JSON.stringify({ error: 'demo copy' }), 'application/json');
-  // v2: "how it works" page with platform screens (demo/how.html), not part of the mirrored Next site
-  if (p === '/how-it-works' || p === '/how-it-works/') return file(res, DEMO, 'how.html');
-  const page = M.pages[p.replace(/\/$/, '') || '/'];
+  // v2: "how it works" is the About page shell (the site's own header, footer and language switch);
+  // demo/v2.js replaces its sections with the platform screens
+  const route = p.replace(/\/$/, '') || '/';
+  const page = M.pages[route === '/how-it-works' ? '/about' : route];
   if (page) {
     if (req.headers.rsc === '1' || url.searchParams.has('_rsc')) {
       return fs.readFile(path.join(ROOT, page.rsc), (e, b) => e ? send(res, 404, '', 'text/plain') : send(res, 200, b, page.rscType || 'text/x-component', 'no-cache'));
@@ -65,7 +66,11 @@ http.createServer((req, res) => {
     return fs.readFile(path.join(ROOT, page.html), 'utf8', (e, html) => {
       if (e) return send(res, 500, 'missing page', 'text/plain');
       // into <head>: extra nodes in <body> break React hydration (error #418)
-      send(res, 200, html.replace('</head>', inject() + '</head>'), TYPES['.html']);
+      // on /how-it-works the About sections are hidden from the first paint and "About" is not the current menu item
+      // (demo/v2.js removes this style once client-side navigation leaves the page)
+      const how = route === '/how-it-works' ? '<style id="vs2-how-style">main > section, main > [class*="__ecosystemBand"] { display: none !important; }'
+        + 'header nav a[class*="__current"] { background: transparent !important; color: rgb(168,184,216) !important; font-weight: 400 !important; }</style>' : '';
+      send(res, 200, html.replace('</head>', inject() + how + '</head>'), TYPES['.html']);
     });
   }
   file(res, ROOT, p);

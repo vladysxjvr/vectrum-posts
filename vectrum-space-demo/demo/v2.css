@@ -101,6 +101,60 @@ main > [class*="__ecosystemBand"] { display: none !important; }
 .vs2-trial span { display: inline-flex; align-items: center; gap: 8px; }
 .vs2-trial svg { width: 16px; height: 16px; color: #4D76F7; }
 
+/* ---------- /how-it-works (demo/v2.js howPage) ---------- */
+.vs2h { --acc: #4D76F7; --line: rgba(77,118,247,.125); --card: rgba(18,22,37,.8); --txt: #F5F6FB; --muted: #B2B7C6; --dim: #7E869B;
+  position: relative; z-index: 1; color: var(--txt); }
+.vs2h-hero { text-align: center; padding: 56px 0 24px; }
+.vs2h-hero h1 { margin: 16px 0 0; font-size: clamp(34px, 5vw, 56px); line-height: 1.1; font-weight: 700; }
+.vs2h em { font-style: normal; color: var(--acc); }
+.vs2h-hero p.vs2-lead { margin-inline: auto; max-width: 680px; }
+.vs2 p.vs2h-note { margin: 18px 0 0; font-size: 12px; color: var(--dim); }
+/* side menu: sticky next to the screens, the section in view is highlighted */
+.vs2h-body { width: min(1200px, calc(100% - 40px)); margin: 0 auto; display: grid; grid-template-columns: 190px 1fr; gap: 40px; align-items: start; }
+.vs2h-nav { position: sticky; top: 24px; display: flex; flex-direction: column; gap: 4px; padding: 16px 12px; border-radius: 12px; background: var(--card); border: 1px solid var(--line); }
+.vs2h-nav > span { padding: 0 10px 8px; font-size: 11px; font-weight: 500; text-transform: uppercase; color: var(--acc); }
+.vs2h-nav a { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 10px; border-radius: 8px; font-size: 14px; color: #A8B8D8; text-decoration: none; transition: background .2s, color .2s; }
+.vs2h-nav a b { font-size: 11px; font-weight: 700; color: var(--dim); }
+.vs2h-nav a:hover { background: rgba(77,118,247,.08); color: var(--txt); }
+.vs2h-nav a.on { background: var(--acc); color: #fff; font-weight: 600; }
+.vs2h-nav a.on b { color: rgba(255,255,255,.8); }
+.vs2h-step { padding: 32px 0 56px; scroll-margin-top: 24px; }
+.vs2h-copy { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 48px; align-items: start; margin-bottom: 28px; }
+.vs2h-copy .vs2-step-day { margin-left: 10px; }
+.vs2h h2 { margin: 14px 0 0; font-size: 30px; line-height: 1.2; font-weight: 700; color: var(--txt); }
+.vs2h-copy p { margin: 28px 0 0; font-size: 16px; line-height: 1.7; color: var(--muted); }
+.vs2h-copy ul { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 10px; }
+.vs2h-copy li { display: flex; gap: 12px; font-size: 15px; line-height: 1.5; color: #D6DBEA; }
+.vs2h-copy li svg { flex: none; width: 18px; height: 18px; margin-top: 2px; color: var(--acc); }
+.vs2h-shot { margin: 0; border-radius: 14px; overflow: hidden; background: var(--card); border: 1px solid var(--line); cursor: zoom-in;
+  box-shadow: 0 30px 80px -30px rgba(40,70,200,.45); }
+.vs2h-bar { display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,.06); background: rgba(255,255,255,.02); }
+.vs2h-bar i { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.14); }
+.vs2h-shot img { display: block; width: 100%; height: auto; aspect-ratio: 1568 / 733; }
+.vs2h-cta .vs2-card { padding: 56px 32px; text-align: center; }
+.vs2h-cta h2 { margin: 0; }
+.vs2h-cta p { margin: 14px auto 0; max-width: 560px; font-size: 16px; line-height: 1.65; color: var(--muted); }
+.vs2h-cta .vs2-card > div { margin-top: 28px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.vs2h .vs2-btn { background: var(--acc); color: #fff; min-height: 46px; padding: 0 20px; font-size: 14px; }
+.vs2h .vs2-btn.ghost { background: rgba(18,22,37,.8); border-color: #2B3559; }
+.vs2h-zoom { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 24px; background: rgba(4,6,12,.9); cursor: zoom-out; }
+.vs2h-zoom[hidden] { display: none; }
+.vs2h-zoom img { max-width: 100%; max-height: 100%; border-radius: 10px; border: 1px solid var(--line); }
+@media (max-width: 1000px) {
+  /* side menu becomes a sticky row of chips above the screens */
+  .vs2h-body { grid-template-columns: 1fr; gap: 0; }
+  .vs2h-nav { top: 0; z-index: 3; flex-direction: row; gap: 6px; overflow-x: auto; padding: 10px; margin: 0 -20px; border-radius: 0; border-inline: 0;
+    background: rgba(13,15,24,.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); scrollbar-width: none; }
+  .vs2h-nav::-webkit-scrollbar { display: none; }
+  .vs2h-nav > span { display: none; }
+  .vs2h-nav a { flex: none; min-height: 38px; padding: 0 14px; border-radius: 20px; white-space: nowrap; }
+  .vs2h-step { scroll-margin-top: 70px; padding: 32px 0 40px; }
+  .vs2h-copy { grid-template-columns: 1fr; gap: 0; margin-bottom: 20px; }
+  .vs2h-copy p { margin-top: 14px; }
+  .vs2h h2 { font-size: 26px; }
+  .vs2h-cta .vs2-card { padding: 40px 20px; }
+}
+
 /* ---------- tablet / phone ---------- */
 @media (max-width: 1100px) {
   .vs2-steps, .vs2-trust { grid-template-columns: repeat(2, 1fr); }
