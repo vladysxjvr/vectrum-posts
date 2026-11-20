@@ -24,14 +24,13 @@ main > [class*="__ecosystemBand"] { display: none !important; }
 .vs2-btn:hover { filter: brightness(1.12); }
 .vs2-btn svg { width: 15px; height: 15px; }
 
-/* "horizon" between the hero and the next section (user picked it over a long fade, which hid the border):
-   a hairline that glows accent blue in the middle and fades out to the sides (::before), a soft blue light
-   under it and a short fade of the hero's dark tone (::after). Both sit behind the next section (z-index 1). */
+/* border between the hero and the next section. Tried: a long fade (no border left), a blue glowing horizon
+   (user: looks bad). Now: a neutral hairline fading out to the sides (::before) and, under it, the mirror of
+   the hero's bottom shadow, dark #0D0E16 at the line easing into the page (::after). Behind the next section. */
 [class*="__heroSurface"]:has(> section[class*="__hero"])::before { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 1px; z-index: 1;
-  background: linear-gradient(90deg, rgba(77,118,247,0) 4%, rgba(77,118,247,.3) 28%, rgba(140,165,255,.95) 50%, rgba(77,118,247,.3) 72%, rgba(77,118,247,0) 96%); pointer-events: none; }
-[class*="__heroSurface"]:has(> section[class*="__hero"])::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 140px;
-  background: radial-gradient(ellipse 45% 100% at 50% 0%, rgba(77,118,247,.16), rgba(77,118,247,0) 75%),
-              linear-gradient(rgb(13,14,22), rgba(13,14,22,0) 48px); pointer-events: none; }
+  background: linear-gradient(90deg, rgba(255,255,255,0) 5%, rgba(255,255,255,.09) 30%, rgba(255,255,255,.14) 50%, rgba(255,255,255,.09) 70%, rgba(255,255,255,0) 95%); pointer-events: none; }
+[class*="__heroSurface"]:has(> section[class*="__hero"])::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 240px;
+  background: linear-gradient(rgb(13,14,22), rgba(21,27,44,.35) 30%, rgba(21,27,44,0)); pointer-events: none; }
 
 /* "how it works" button under the feature cards (outside .vs2, so colours are spelled out) */
 .vs2-more { display: flex; justify-content: center; margin-top: 36px; }
