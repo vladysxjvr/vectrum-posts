@@ -130,7 +130,8 @@ main > [class*="__ecosystemBand"] { display: none !important; }
   box-shadow: 0 30px 80px -30px rgba(40,70,200,.45); }
 .vs2h-bar { display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,.06); background: rgba(255,255,255,.02); }
 .vs2h-bar i { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.14); }
-.vs2h-shot img { display: block; width: 100%; height: auto; aspect-ratio: 1568 / 733; }
+/* the platform screens are in English for every language of the site (user's decision) */
+.vs2h-shot img { display: block; width: 100%; height: auto; aspect-ratio: 1568 / 778; }
 .vs2h-cta .vs2-card { padding: 56px 32px; text-align: center; }
 .vs2h-cta h2 { margin: 0; }
 .vs2h-cta p { margin: 14px auto 0; max-width: 560px; font-size: 16px; line-height: 1.65; color: var(--muted); }

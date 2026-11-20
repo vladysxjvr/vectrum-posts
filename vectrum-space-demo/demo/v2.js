@@ -78,7 +78,7 @@
       how: {
         doc: 'Как работает Vectrum Space', eyebrow: 'Как это работает', title: ['Vectrum', 'изнутри.'],
         lead: 'Настоящие экраны платформы. Так выглядит рабочий день логиста, механика и владельца: от заказа и карты до сервиса и цифр компании.',
-        note: 'Экраны сняты на демо-данных: имена, компании и номера машин выдуманы.', navTitle: 'Разделы',
+        note: 'Экраны сняты на демо-данных: имена, компании и номера машин выдуманы. Интерфейс показан на английском, в платформе доступны и другие языки, в том числе русский.', navTitle: 'Разделы',
         ctaTitle: ['Хотите увидеть', 'на своих данных?'], ctaLead: 'Покажем Vectrum на примере вашего автопарка и поможем перенести машины, водителей и клиентов.',
         start: 'Начать бесплатно', demo: 'Записаться на демо',
         steps: [
@@ -303,7 +303,7 @@
             <div class="vs2h-copy"><div><span class="vs2-step-num">0${i + 1}</span><span class="vs2-step-day">${tag}</span><h2>${h[0]} <em>${h[1]}</em></h2></div>
               <div><p>${p}</p><ul>${li.map(t => `<li>${svg('check')}<span>${t}</span></li>`).join('')}</ul></div></div>
             <figure class="vs2h-shot" data-src="/__demo/how/${id}.jpg"><div class="vs2h-bar"><i></i><i></i><i></i></div>
-              <img src="/__demo/how/${id}.jpg" alt="${tag}" width="1568" height="733" decoding="async"></figure>
+              <img src="/__demo/how/${id}.jpg" alt="${tag}" width="1568" height="778" decoding="async"></figure>
           </section>`).join('')}</div>
       </div>
       <section class="vs2 vs2h-cta"><div class="vs2-card">
