@@ -1,9 +1,21 @@
 {
-  "_comment": "Text fixes laid over the landing API of the mirror (server.js merges them into /api/public/landing). Kept here so a fresh mirror does not lose them.",
+  "_comment": "Text fixes laid over the landing API of the mirror (server.js merges them into /api/public/landing). Kept here so a fresh mirror does not lose them. \"plans\": feature lists per plan id (v2: the three plans listed the same four features).",
   "ru": {
     "copy.heroNote": "Сделано для перевозок — чтобы работать было проще."
   },
   "uk": {
     "copy.heroNote": "Зроблено для перевезень — щоб працювати було простіше."
+  },
+  "plans": {
+    "ru": {
+      "standard": ["Заказы и CMR в одной системе", "GPS-трекинг машин онлайн", "Приложение водителя", "Карточки машин и сервис"],
+      "standard-plus": ["Заказы и CMR в одной системе", "GPS-трекинг машин онлайн", "Приложение водителя", "Карточки машин и сервис", "Планирование маршрутов и ETA", "Данные тахографа", "Финансы, счета и отчёты", "AI-помощник логиста"],
+      "enterprise": ["Заказы и CMR в одной системе", "GPS-трекинг машин онлайн", "Приложение водителя", "Карточки машин и сервис", "Планирование маршрутов и ETA", "Данные тахографа", "Финансы, счета и отчёты", "AI-помощник логиста", "API и интеграции", "Перенос данных и обучение", "Персональный менеджер и SLA"]
+    },
+    "en": {
+      "standard": ["Orders and CMR in one system", "Live GPS tracking", "Driver app", "Vehicle cards and service"],
+      "standard-plus": ["Orders and CMR in one system", "Live GPS tracking", "Driver app", "Vehicle cards and service", "Route planning and ETA", "Tachograph data", "Finance, invoices and reports", "AI dispatcher assistant"],
+      "enterprise": ["Orders and CMR in one system", "Live GPS tracking", "Driver app", "Vehicle cards and service", "Route planning and ETA", "Tachograph data", "Finance, invoices and reports", "AI dispatcher assistant", "API and integrations", "Data import and training", "Dedicated manager and SLA"]
+    }
   }
 }

@@ -1,0 +1,124 @@
+/* v2 test version: new home sections (demo/v2.js). Tokens taken from the live site:
+   cards rgba(18,22,37,.8) + 1px rgba(77,118,247,.125), radius 12, accent #4D76F7, text #F5F6FB, muted #B2B7C6 */
+
+/* the "Платформа · Всё работает вместе" band with the AI slider is replaced by the before / after section */
+main > [class*="__ecosystemBand"] { display: none !important; }
+
+.vs2 { --acc: #4D76F7; --acc-soft: rgba(77,118,247,.12); --line: rgba(77,118,247,.125); --card: rgba(18,22,37,.8);
+  --txt: #F5F6FB; --muted: #B2B7C6; --dim: #7E869B; --bad: #E46B6B;
+  position: relative; z-index: 1; width: min(1200px, calc(100% - 40px)); margin: 0 auto; padding: 80px 0 80px; color: var(--txt); }
+.vs2-band { position: relative; z-index: 1; background: rgba(34,43,72,.42); border-block: 1px solid rgba(255,255,255,.07); }
+.vs2-eyebrow { display: block; font-size: 11px; font-weight: 500; line-height: 1.5; text-transform: uppercase; color: var(--acc); letter-spacing: .02em; }
+.vs2 h2 { margin: 14px 0 0; font-size: 40px; line-height: 48px; font-weight: 700; color: var(--txt); }
+.vs2 h2 em { font-style: normal; color: var(--acc); }
+/* `.vs2 p.vs2-lead`: the site resets paragraph margins inside main with a stronger selector */
+.vs2 p.vs2-lead { margin: 18px 0 0; max-width: 640px; font-size: 18px; line-height: 1.65; color: var(--muted); }
+.vs2-center { text-align: center; }
+.vs2-center p.vs2-lead { margin-inline: auto; }
+.vs2-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
+.vs2-ico { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 8px; background: var(--acc-soft); color: var(--acc); }
+.vs2-ico svg { width: 20px; height: 20px; }
+.vs2-btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 8px; border: 1px solid transparent;
+  background: var(--acc); color: #fff; font: 600 13px/1.35 inherit; font-family: inherit; text-decoration: none; cursor: pointer; transition: filter .2s; }
+.vs2-btn:hover { filter: brightness(1.12); }
+.vs2-btn svg { width: 15px; height: 15px; }
+
+/* ---------- 1. before / after ---------- */
+.vs2-ba { margin-top: 48px; display: grid; grid-template-columns: 1fr 44px 1fr; column-gap: 0; row-gap: 12px; }
+.vs2-ba-head { display: flex; align-items: center; gap: 10px; padding: 0 24px 6px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.vs2-ba-head.before { color: var(--dim); }
+.vs2-ba-head.after { color: var(--acc); }
+.vs2-ba-head i { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.vs2-ba-cell { display: flex; gap: 14px; align-items: flex-start; padding: 20px 24px; font-size: 15px; line-height: 1.55; }
+.vs2-ba-cell b { display: block; margin-bottom: 4px; font-size: 16px; font-weight: 600; }
+.vs2-ba-cell.before { background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.06); border-radius: 12px; color: var(--dim); }
+.vs2-ba-cell.before b { color: #A4AABB; }
+.vs2-ba-cell.after { color: var(--muted); }
+.vs2-ba-cell.after b { color: var(--txt); }
+.vs2-ba-cell > svg { flex: none; width: 20px; height: 20px; margin-top: 2px; }
+.vs2-ba-cell.before > svg { color: var(--bad); opacity: .75; }
+.vs2-ba-cell.after > svg { color: var(--acc); }
+.vs2-ba-arrow { display: grid; place-items: center; color: rgba(77,118,247,.55); }
+.vs2-ba-arrow svg { width: 20px; height: 20px; }
+.vs2-stats { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.vs2-stat { padding: 24px; }
+.vs2-stat strong { display: block; font-size: 30px; line-height: 1.15; font-weight: 700; color: var(--txt); }
+.vs2-stat strong em { font-style: normal; color: var(--acc); }
+.vs2-stat span { display: block; margin-top: 8px; font-size: 14px; line-height: 1.55; color: var(--muted); }
+
+/* ---------- 2. launch in 7 days ---------- */
+.vs2-steps { margin-top: 48px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; counter-reset: st; }
+.vs2-step { position: relative; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+.vs2-step-top { display: flex; align-items: center; justify-content: space-between; }
+.vs2-step-num { font-size: 13px; font-weight: 700; color: var(--acc); }
+.vs2-step-day { padding: 4px 9px; border-radius: 20px; font-size: 11px; color: #9AB4FC; background: rgba(77,118,247,.06); border: 1px solid rgba(77,118,247,.2); }
+.vs2-step h3 { margin: 4px 0 0; font-size: 17px; font-weight: 700; color: var(--txt); }
+.vs2-step p { margin: 0; font-size: 14px; line-height: 1.65; color: var(--muted); }
+.vs2-integr { margin-top: 28px; padding: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.vs2-integr > span { font-size: 14px; font-weight: 600; color: var(--txt); margin-right: 8px; }
+.vs2-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.vs2-chip { display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border-radius: 20px; font-size: 13px; color: #C9D3F5; background: rgba(77,118,247,.06); border: 1px solid rgba(77,118,247,.2); }
+.vs2-chip svg { width: 14px; height: 14px; color: var(--acc); }
+
+/* ---------- 3. cost calculator ---------- */
+.vs2-calc { margin-top: 48px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 16px; text-align: left; }
+.vs2-calc-in { padding: 28px; display: flex; flex-direction: column; gap: 26px; }
+.vs2-field label, .vs2-field .vs2-lbl { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 14px; color: var(--muted); }
+.vs2-field output { font-size: 22px; font-weight: 700; color: var(--txt); }
+.vs2-range { width: 100%; margin: 14px 0 0; accent-color: var(--acc); height: 28px; cursor: pointer; }
+.vs2-seg { margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 4px; border-radius: 10px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07); }
+.vs2-seg button { min-height: 40px; border: 0; border-radius: 7px; background: none; color: var(--muted); font: 600 13px/1 inherit; font-family: inherit; cursor: pointer; }
+.vs2-seg button[aria-pressed="true"] { background: var(--acc); color: #fff; }
+.vs2-assume { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.vs2-num { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 0 12px; border-radius: 8px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); }
+.vs2-num input { width: 100%; min-height: 42px; border: 0; background: none; color: var(--txt); font: 600 16px/1 inherit; font-family: inherit; outline: none; }
+.vs2-num span { font-size: 13px; color: var(--dim); white-space: nowrap; }
+.vs2-num:focus-within { border-color: var(--acc); }
+.vs2-calc-out { padding: 28px; display: flex; flex-direction: column; gap: 18px; background: linear-gradient(160deg, rgba(77,118,247,.22), rgba(18,22,37,.85) 60%); border-color: rgba(77,118,247,.35); }
+.vs2-out-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.vs2-out-row span { font-size: 14px; color: var(--muted); }
+.vs2-out-row strong { font-size: 22px; font-weight: 700; color: var(--txt); white-space: nowrap; }
+.vs2-out-big strong { font-size: 34px; color: #fff; }
+.vs2-out-note { margin: 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
+.vs2-out-note b { color: var(--txt); }
+.vs2-calc-out .vs2-btn { align-self: flex-start; margin-top: auto; }
+.vs2 p.vs2-small { margin: 0; font-size: 12px; line-height: 1.5; color: var(--dim); }
+
+/* ---------- 4. trust ---------- */
+.vs2-trust { margin-top: 48px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.vs2-trust article { padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+.vs2-trust h3 { margin: 4px 0 0; font-size: 17px; font-weight: 700; color: var(--txt); }
+.vs2-trust p { margin: 0; font-size: 14px; line-height: 1.65; color: var(--muted); }
+
+/* ---------- pricing: what the trial means, under the plans ---------- */
+.vs2-trial { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 28px; margin: 28px auto 0; font-size: 14px; color: var(--muted, #B2B7C6); }
+.vs2-trial span { display: inline-flex; align-items: center; gap: 8px; }
+.vs2-trial svg { width: 16px; height: 16px; color: #4D76F7; }
+
+/* ---------- tablet / phone ---------- */
+@media (max-width: 1100px) {
+  .vs2-steps, .vs2-trust { grid-template-columns: repeat(2, 1fr); }
+  .vs2-calc { grid-template-columns: 1fr; }
+}
+@media (max-width: 900px) {
+  .vs2 { padding: 64px 0 72px; }
+  .vs2 h2 { font-size: 30px; line-height: 36px; }
+  .vs2-lead { font-size: 16px; }
+  /* before / after: each pair becomes one card, "now" on top, "with Vectrum" under it */
+  .vs2-ba { grid-template-columns: 1fr; row-gap: 0; }
+  .vs2-ba-head, .vs2-ba-arrow { display: none; }
+  .vs2-ba-cell { padding: 16px 18px; font-size: 14px; }
+  .vs2-ba-cell.before { border-radius: 12px 12px 0 0; border-bottom: 0; }
+  .vs2-ba-cell.after { border-radius: 0 0 12px 12px; margin-bottom: 12px; }
+  .vs2-ba-cell.before b, .vs2-ba-cell.after b { font-size: 15px; }
+  .vs2-stats { grid-template-columns: 1fr; gap: 12px; margin-top: 28px; }
+  .vs2-stat { padding: 20px; }
+  .vs2-stat strong { font-size: 26px; }
+  .vs2-calc-in, .vs2-calc-out { padding: 20px; }
+  .vs2-out-big strong { font-size: 28px; }
+}
+@media (max-width: 640px) {
+  .vs2-steps, .vs2-trust { grid-template-columns: 1fr; gap: 12px; }
+  .vs2-assume { grid-template-columns: 1fr; }
+  .vs2-integr { padding: 20px; }
+}
