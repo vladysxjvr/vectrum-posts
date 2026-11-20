@@ -124,6 +124,8 @@ main > [class*="__ecosystemBand"] { display: none !important; }
 .vs2h-nav a.on { background: var(--acc); color: #fff; font-weight: 600; }
 .vs2h-nav a.on b { color: rgba(255,255,255,.8); }
 .vs2h-step { padding: 32px 0 56px; scroll-margin-top: 24px; }
+/* the sticky menu stops at the end of the column: with no padding after the last screen it stops level with its bottom */
+.vs2h-step:last-child { padding-bottom: 0; }
 .vs2h-copy { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 48px; align-items: start; margin-bottom: 28px; }
 .vs2h-copy .vs2-step-day { margin-left: 10px; }
 .vs2h h2 { margin: 14px 0 0; font-size: 30px; line-height: 1.2; font-weight: 700; color: var(--txt); }
