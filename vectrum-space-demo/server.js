@@ -55,6 +55,8 @@ http.createServer((req, res) => {
     });
   }
   if (p.startsWith('/api/')) return send(res, 503, JSON.stringify({ error: 'demo copy' }), 'application/json');
+  // v2: "how it works" page with platform screens (demo/how.html), not part of the mirrored Next site
+  if (p === '/how-it-works' || p === '/how-it-works/') return file(res, DEMO, 'how.html');
   const page = M.pages[p.replace(/\/$/, '') || '/'];
   if (page) {
     if (req.headers.rsc === '1' || url.searchParams.has('_rsc')) {

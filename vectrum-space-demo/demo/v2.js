@@ -74,6 +74,7 @@
         note: 'Расчёт ориентировочный: 22 рабочих дня в месяце, цены тарифов за месяц, без НДС.',
         cta: 'Попробовать бесплатно',
       },
+      more: 'Посмотреть, как это работает',
       trial: ['Бесплатный период', 'Без привязки карты', 'Помесячная оплата, отмена в любой момент'],
       trust: {
         eyebrow: 'Безопасность', title: ['Ваши данные', 'под защитой.'],
@@ -135,6 +136,7 @@
         note: 'Rough estimate: 22 working days a month, monthly plan prices, VAT excluded.',
         cta: 'Try it free',
       },
+      more: 'See how it works',
       trial: ['Free trial', 'No card required', 'Monthly billing, cancel any time'],
       trust: {
         eyebrow: 'Security', title: ['Your data,', 'protected.'],
@@ -260,6 +262,8 @@
     main.dataset.vs2 = lang;
     const x = t();
     band.after(beforeAfter(x.ba));
+    // "how it works" page with the platform screens, under the feature cards
+    caps.appendChild(el(`<div class="vs2-more" data-vs2="more"><a class="vs2-btn" href="/how-it-works">${x.more}${svg('arrow')}</a></div>`));
     caps.after(launch(x.launch));
     pricing.before(calc(x.calc));
     pricing.before(trust(x.trust));

@@ -24,6 +24,10 @@ main > [class*="__ecosystemBand"] { display: none !important; }
 .vs2-btn:hover { filter: brightness(1.12); }
 .vs2-btn svg { width: 15px; height: 15px; }
 
+/* "how it works" button under the feature cards (outside .vs2, so colours are spelled out) */
+.vs2-more { display: flex; justify-content: center; margin-top: 36px; }
+.vs2-more .vs2-btn { background: #4D76F7; color: #fff; min-height: 46px; padding: 0 22px; font-size: 14px; }
+
 /* ---------- 1. before / after ---------- */
 .vs2-ba { margin-top: 48px; display: grid; grid-template-columns: 1fr 44px 1fr; column-gap: 0; row-gap: 12px; }
 .vs2-ba-head { display: flex; align-items: center; gap: 10px; padding: 0 24px 6px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
