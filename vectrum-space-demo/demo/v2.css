@@ -24,6 +24,11 @@ main > [class*="__ecosystemBand"] { display: none !important; }
 .vs2-btn:hover { filter: brightness(1.12); }
 .vs2-btn svg { width: 15px; height: 15px; }
 
+/* the hero backdrop ends in solid #0D0E16 while the page gradient under it is lighter navy: a hard line.
+   A fade under the hero carries that dark tone down and dissolves it (behind the next section, z-index 1) */
+[class*="__heroSurface"]:has(> section[class*="__hero"])::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 260px;
+  background: linear-gradient(rgb(13,14,22), rgba(13,14,22,.6) 40%, rgba(13,14,22,0)); pointer-events: none; }
+
 /* "how it works" button under the feature cards (outside .vs2, so colours are spelled out) */
 .vs2-more { display: flex; justify-content: center; margin-top: 36px; }
 .vs2-more .vs2-btn { background: #4D76F7; color: #fff; min-height: 46px; padding: 0 22px; font-size: 14px; }
