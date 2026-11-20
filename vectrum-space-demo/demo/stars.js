@@ -38,16 +38,21 @@
     wrap.style.top = regionTop + 'px'; wrap.style.height = regionH + 'px';
     dpr = Math.min(MAX_DPR, devicePixelRatio || 1); W = wrap.clientWidth; VH = innerHeight;
     cv.width = Math.round(W * dpr); cv.height = Math.round(VH * dpr); cv.style.height = VH + 'px';
-    const phone = W < 800, rand = rng(0x5EED + Math.round(W / 50));
-    const n = Math.round(W * regionH * DENSITY * (phone ? 0.6 : 1));
+    // the sky is laid out in fixed 1000px tiles, each with its own seed: when the region grows (an FAQ answer
+    // opens) new tiles are added below and the stars already on screen stay where they are. Before, every star
+    // was spread over the whole height, so any change of height moved the whole sky ("the background stretches").
+    const phone = W < 800, TILE = 1000, perTile = Math.round(W * TILE * DENSITY * (phone ? 0.6 : 1));
     stars = [];
-    for (let i = 0; i < n; i++) {
-      const big = rand() < BIG;
-      stars.push({
-        x: rand() * W, y: rand() * regionH, big, r: big ? 1.5 + rand() * 0.8 : 0.6 + rand() * 0.9,
-        c: COLORS[Math.floor(rand() * COLORS.length)], period: 3 + rand() * 6, ph: rand(),
-        sharp: 1.5 + rand() * 2.5, base: rand() < 0.25 ? 0.25 : 0,
-      });
+    for (let t = 0; t * TILE < regionH; t++) {
+      const rand = rng(0x5EED + Math.round(W / 50) * 7919 + t * 104729);
+      for (let i = 0; i < perTile; i++) {
+        const big = rand() < BIG, s = {
+          x: rand() * W, y: t * TILE + rand() * TILE, big, r: big ? 1.5 + rand() * 0.8 : 0.6 + rand() * 0.9,
+          c: COLORS[Math.floor(rand() * COLORS.length)], period: 3 + rand() * 6, ph: rand(),
+          sharp: 1.5 + rand() * 2.5, base: rand() < 0.25 ? 0.25 : 0,
+        };
+        if (s.y < regionH) stars.push(s);
+      }
     }
     stars.sort((a, b) => a.y - b.y); // so the visible slice is found by binary search
     return true;
