@@ -7,7 +7,8 @@ main > [class*="__ecosystemBand"] { display: none !important; }
 .vs2 { --acc: #4D76F7; --acc-soft: rgba(77,118,247,.12); --line: rgba(77,118,247,.125); --card: rgba(18,22,37,.8);
   --txt: #F5F6FB; --muted: #B2B7C6; --dim: #7E869B; --bad: #E46B6B;
   position: relative; z-index: 1; width: min(1200px, calc(100% - 40px)); margin: 0 auto; padding: 80px 0 80px; color: var(--txt); }
-.vs2-band { position: relative; z-index: 1; background: rgba(34,43,72,.42); border-block: 1px solid rgba(255,255,255,.07); }
+/* no band tint: the stars (demo/stars.js) start at this section, like on the rest of the page */
+.vs2-band { position: relative; z-index: 1; }
 .vs2-eyebrow { display: block; font-size: 11px; font-weight: 500; line-height: 1.5; text-transform: uppercase; color: var(--acc); letter-spacing: .02em; }
 .vs2 h2 { margin: 14px 0 0; font-size: 40px; line-height: 48px; font-weight: 700; color: var(--txt); }
 .vs2 h2 em { font-style: normal; color: var(--acc); }
@@ -74,7 +75,7 @@ main > [class*="__ecosystemBand"] { display: none !important; }
 .vs2-num input { width: 100%; min-height: 42px; border: 0; background: none; color: var(--txt); font: 600 16px/1 inherit; font-family: inherit; outline: none; }
 .vs2-num span { font-size: 13px; color: var(--dim); white-space: nowrap; }
 .vs2-num:focus-within { border-color: var(--acc); }
-.vs2-calc-out { padding: 28px; display: flex; flex-direction: column; gap: 18px; background: linear-gradient(160deg, rgba(77,118,247,.22), rgba(18,22,37,.85) 60%); border-color: rgba(77,118,247,.35); }
+.vs2-calc-out { padding: 28px; display: flex; flex-direction: column; gap: 18px; }
 .vs2-out-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
 .vs2-out-row span { font-size: 14px; color: var(--muted); }
 .vs2-out-row strong { font-size: 22px; font-weight: 700; color: var(--txt); white-space: nowrap; }

@@ -23,7 +23,8 @@
 
   function region() {
     // home page only (QA #1): /pricing has the same pricing -> banner sections but should look like About and Contact
-    const main = layer.parentElement, first = main.querySelector('section[class*="__capabilities"]');
+    // v2: the sky starts at the before / after section (demo/v2.js) when it is there
+    const main = layer.parentElement, first = main.querySelector('[data-vs2="ba"]') || main.querySelector('section[class*="__capabilities"]');
     const lastSec = main.querySelector('section[class*="__banner"]') || main.querySelector('section[class*="__faq"]');
     if (!first || !lastSec) return null;
     const m = main.getBoundingClientRect(), a = first.getBoundingClientRect(), b = lastSec.getBoundingClientRect();
