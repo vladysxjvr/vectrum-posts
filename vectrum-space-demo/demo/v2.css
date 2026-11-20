@@ -31,17 +31,18 @@ main > [class*="__ecosystemBand"] { display: none !important; }
 /* ---------- 1. before / after ---------- */
 .vs2-ba { margin-top: 48px; display: grid; grid-template-columns: 1fr 44px 1fr; column-gap: 0; row-gap: 12px; }
 .vs2-ba-head { display: flex; align-items: center; gap: 10px; padding: 0 24px 6px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
-.vs2-ba-head.before { color: var(--dim); }
+.vs2-ba-head.before { color: #A3AABC; }
 .vs2-ba-head.after { color: var(--acc); }
 .vs2-ba-head i { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
 .vs2-ba-cell { display: flex; gap: 14px; align-items: flex-start; padding: 20px 24px; font-size: 15px; line-height: 1.55; }
 .vs2-ba-cell b { display: block; margin-bottom: 4px; font-size: 16px; font-weight: 600; }
-.vs2-ba-cell.before { background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.06); border-radius: 12px; color: var(--dim); }
-.vs2-ba-cell.before b { color: #A4AABB; }
+/* "now" column: muted next to "with Vectrum", but still easy to read (user: more contrast) */
+.vs2-ba-cell.before { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.11); border-radius: 12px; color: #A3AABC; }
+.vs2-ba-cell.before b { color: #E3E6EF; }
 .vs2-ba-cell.after { color: var(--muted); }
 .vs2-ba-cell.after b { color: var(--txt); }
 .vs2-ba-cell > svg { flex: none; width: 20px; height: 20px; margin-top: 2px; }
-.vs2-ba-cell.before > svg { color: var(--bad); opacity: .75; }
+.vs2-ba-cell.before > svg { color: var(--bad); }
 .vs2-ba-cell.after > svg { color: var(--acc); }
 .vs2-ba-arrow { display: grid; place-items: center; color: rgba(77,118,247,.55); }
 .vs2-ba-arrow svg { width: 20px; height: 20px; }
