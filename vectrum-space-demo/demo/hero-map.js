@@ -31,7 +31,7 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 
   let cv, ctx, W = 0, H = 0, dpr = 1, S = 1, OX = 0, OY = 0, dotLayer, dots = [], pts = {}, pairs = [];
-  let t0 = performance.now(), visible = true, raf = 0, retry = 0, lights = new Map(), zone;
+  let t0 = performance.now(), visible = true, raf = 0, retry = 0, lights = new Map(), zone, layouts = 0, blocks = [];
   // 0 in the middle of the text block, 1 outside it (soft edge)
   const calmAt = (x, y) => smooth(0.75, 1.1, Math.hypot((x - zone.cx) / zone.rx, (y - zone.cy) / zone.ry));
 
@@ -70,6 +70,13 @@
       const y0 = Math.min(...text.map(r => r.top)) - box.top, y1 = Math.max(...text.map(r => r.bottom)) - box.top;
       zone = { cx: (x0 + x1) / 2, cy: (y0 + y1) / 2, rx: (x1 - x0) / 2 + 20, ry: (y1 - y0) / 2 + 30 };
     } else zone = { cx: W / 2, cy: H * 0.36, rx: W * 0.32, ry: H * 0.26 };
+    // buttons and the note under them: a trip route (demo/hero-trip.js) must not run behind them either
+    // both rows are full width: measure the buttons themselves and the note's text
+    const note = document.querySelector('section[class*="__hero"] > [class*="__heroNote"]'), range = document.createRange();
+    if (note) range.selectNodeContents(note);
+    blocks = [...document.querySelectorAll('section[class*="__hero"] > [class*="__actions"] > *')].map(e => e.getBoundingClientRect())
+      .concat(note ? [range.getBoundingClientRect()] : []).filter(r => r.width && r.height)
+      .map(r => [r.left - box.left - 24, r.top - box.top - 24, r.right - box.left + 24, r.bottom - box.top + 24]);
     const R = Math.max(1, 1.15 * Math.min(S, 1.6));
     dots = [];
     for (const [x0, y0, coast] of window.EUROPE_DOTS || []) {
@@ -81,6 +88,7 @@
     dotLayer = document.createElement('canvas'); dotLayer.width = cv.width; dotLayer.height = cv.height;
     const g = dotLayer.getContext('2d'); g.scale(dpr, dpr);
     for (const o of dots) { g.fillStyle = rgba(COLOR.dot, o.a); g.beginPath(); g.arc(o.x, o.y, o.r, 0, 6.2832); g.fill(); }
+    layouts++;
     return true;
   }
 
@@ -135,13 +143,21 @@
           shown.set(c, prev ? { since: Math.max(prev.since, s), alpha: Math.max(prev.alpha, alpha) } : { since: s, alpha });
         }
       }
+      const trip = window.__vsTrip; // the route the hero card (demo/hero-trip.js) is showing as a live trip
       for (const { r, i, age, alpha: a0 } of live) {
-        const alpha = a0 * (0.55 + 0.45 * Math.min(calmAt(r.C[0], r.C[1]), calmAt((r.A[0] + r.B[0]) / 2, (r.A[1] + r.B[1]) / 2)));
+        const focus = trip && trip.i === i;
+        const alpha = focus ? a0 : a0 * (0.55 + 0.45 * Math.min(calmAt(r.C[0], r.C[1]), calmAt((r.A[0] + r.B[0]) / 2, (r.A[1] + r.B[1]) / 2)));
         const u = clamp((age - T.draw[0]) / (T.draw[1] - T.draw[0])), e = ease(u);
         if (e <= 0) continue;
-        ctx.strokeStyle = rgba(COLOR.accent, 0.75 * alpha); ctx.lineWidth = 1.3; ctx.lineCap = 'round';
+        ctx.strokeStyle = rgba(focus ? COLOR.light : COLOR.accent, (focus ? 0.95 : 0.75) * alpha); ctx.lineWidth = focus ? 2 : 1.3; ctx.lineCap = 'round';
         ctx.beginPath(); ctx.moveTo(r.A[0], r.A[1]); for (let k = 1; k <= 60; k++) { const q = qb(r, e * k / 60); ctx.lineTo(q[0], q[1]); } ctx.stroke();
         if (u < 1) { const h = qb(r, e); glow(h[0], h[1], 16, COLOR.light, 0.8 * alpha); continue; }
+        // the card's truck: follows the trip progress instead of the random lights
+        if (focus) {
+          const q = qb(r, clamp(trip.p)); glow(q[0], q[1], 26, COLOR.light, 0.9 * alpha);
+          ctx.fillStyle = rgba([235, 242, 255], alpha); ctx.beginPath(); ctx.arc(q[0], q[1], 3.4, 0, 6.2832); ctx.fill();
+          continue;
+        }
         // a light runs along the finished route now and then, back and forth
         let L = lights.get(i); if (!L) { L = { next: age + 0.6, dir: 1 }; lights.set(i, L); }
         if (age >= L.next + T.lightDur) { L.next = age + T.lightEvery[0] + Math.random() * (T.lightEvery[1] - T.lightEvery[0]); L.dir *= -1; }
@@ -159,6 +175,22 @@
   }
   // for checking frames when the page does not animate (hidden tab): render the state at `sec` seconds
   window.__vsHeroAt = sec => { t0 = performance.now() - sec * 1000; layout(); frame(performance.now()); };
+  // for demo/hero-trip.js: the map clock and which route starts at step i (route i starts at T.mapIn + i * T.every)
+  window.__vsHero = {
+    T, reduced: () => reduced.matches,
+    t: () => (performance.now() - t0) / 1000,
+    layouts: () => layouts,
+    // calm: 1 when the route is clear of the headline and buttons (not dimmed), lower behind them
+    route: i => {
+      const r = pairs.length && pairs[i % pairs.length]; if (!r) return null;
+      let calm = 1;
+      for (let k = 0; k <= 12; k++) {
+        const [x, y] = qb(r, k / 12); calm = Math.min(calm, calmAt(x, y));
+        if (blocks.some(([x0, y0, x1, y1]) => x > x0 && x < x1 && y > y0 && y < y1)) calm = 0;
+      }
+      return { a: r.a, b: r.b, A: CITIES[r.a], B: CITIES[r.b], calm };
+    },
+  };
   const kick = () => { if (!raf && cv && cv.isConnected) raf = requestAnimationFrame(frame); };
 
   function mount() {
