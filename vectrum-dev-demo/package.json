@@ -1,0 +1,10 @@
+{
+  "name": "vectrum-dev-demo",
+  "private": true,
+  "description": "Copy of the live dev.vectrumspace.eu with the CTA and funnel prototype",
+  "scripts": {
+    "start": "node server.js",
+    "mirror": "node tools/mirror.js"
+  },
+  "engines": { "node": ">=20" }
+}

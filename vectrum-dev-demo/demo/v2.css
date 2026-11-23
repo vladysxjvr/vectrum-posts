@@ -1,0 +1,91 @@
+/* Vectrum Dev — CTA / funnel prototype. Uses the site's own tokens (--accent, --ink, --muted, --line, --font). */
+
+/* cookie panel: a compact bar at the bottom instead of a card over the hero button */
+.vd-consent{left:50%;right:auto;bottom:16px;transform:translateX(-50%);width:min(880px,calc(100% - 32px));padding:14px 18px;display:grid;grid-template-columns:1fr auto;gap:4px 18px;align-items:center;font-size:13px;line-height:1.45;border-color:rgba(255,255,255,.14);background:rgba(20,26,42,.96);backdrop-filter:blur(10px)}
+.vd-consent h2{display:none}
+.vd-consent > p{grid-column:1;margin:0;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.vd-consent details{grid-column:1;font-size:12px}
+.vd-consent details summary{padding:2px 0}
+.vd-consent-actions{grid-column:2;grid-row:1 / span 2;margin:0;flex-wrap:nowrap}
+.vd-consent-actions button{min-width:0;flex:none;padding:9px 14px;font-size:13px}
+@media(max-width:700px){
+  .vd-consent{grid-template-columns:1fr;bottom:10px;width:calc(100% - 20px);padding:12px 14px;font-size:12px}
+  .vd-consent > p{-webkit-line-clamp:2}
+  .vd-consent details{display:none}
+  .vd-consent-actions{grid-column:1;grid-row:auto;margin-top:6px}
+  .vd-consent-actions button{flex:1;padding:9px 10px}
+}
+
+/* hero: main button + quiet link, promise underneath */
+.v2-hero-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px 24px;margin-top:28px}
+.v2-hero-actions .btn{margin:0}
+.v2-ghost{color:var(--ink-2);font-weight:600;text-decoration:none;border-bottom:1px solid var(--line-strong);padding:6px 0}
+.v2-ghost:hover{color:#fff;border-color:var(--accent)}
+.v2-hero-note{margin:18px 0 0;color:var(--muted);font-size:14px;letter-spacing:.01em}
+
+/* services: the app card gets the same look, prices read as small print */
+#services .grid3 .item p{color:var(--muted)}
+
+/* proof */
+.v2-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+.v2-fact{padding:24px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.v2-fact b{display:block;font-size:40px;line-height:1.1;color:var(--accent-text);font-weight:700}
+.v2-fact span{display:block;margin-top:8px;color:var(--ink-2);font-size:15px}
+.v2-sub{margin:56px 0 20px;font-size:22px;text-align:center}
+.v2-reviews{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.v2-review{margin:0;padding:24px;border:1px dashed rgba(255,190,90,.55);border-radius:12px;background:rgba(255,190,90,.05)}
+.v2-review blockquote{margin:0;color:#ffd79a;font-style:italic}
+.v2-review figcaption{margin-top:14px;color:var(--dim);font-size:14px}
+
+/* how we work */
+.v2-steps{list-style:none;margin:48px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:s}
+.v2-steps li{position:relative;padding:24px;border-top:2px solid var(--accent)}
+.v2-step-n{color:var(--accent-text);font-weight:700;font-size:14px}
+.v2-steps h3{margin:10px 0 6px;font-size:19px}
+.v2-steps p{margin:0;color:var(--muted)}
+
+/* main form: consent and messengers under the button */
+.v2-form .factions{margin-top:8px}
+.v2-form-after{text-align:center;margin-top:18px}
+.v2-consent{margin:0 auto;max-width:620px;color:var(--dim);font-size:13px}
+.v2-consent a,.v2-alt a{color:var(--accent-text)}
+.v2-alt{margin:14px 0 0;color:var(--ink-2);font-size:15px;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px}
+.v2-alt a{font-weight:600;text-decoration:none;padding:10px 0}
+.v2-form [role="status"]{text-align:center;font-weight:600;color:#8fe0a6}
+
+/* short form on service and project pages */
+.v2-mini{margin-top:28px;padding:24px;border:1px solid var(--line-strong);border-radius:14px;background:var(--surface);text-align:left}
+.v2-mini h3{margin:0;font-size:22px}
+.v2-mini-sub{margin:6px 0 18px;color:var(--muted)}
+.v2-mini-row{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:12px}
+.v2-mini-field span{display:block;font-size:13px;color:var(--dim);margin-bottom:6px}
+.v2-mini-field input{width:100%;min-height:46px;padding:0 14px;border:1px solid var(--line-strong);border-radius:8px;background:rgba(0,0,0,.2);color:var(--ink);font:16px var(--font)}
+.v2-mini-field input:focus{outline:0;border-color:var(--accent)}
+.v2-mini .btn{margin:16px 0 0}
+.v2-mini-status{margin:12px 0 0;font-weight:600}
+.v2-mini-status.ok{color:#8fe0a6}.v2-mini-status.err{color:var(--error)}
+.proj-cta .v2-mini{max-width:880px;margin-inline:auto}
+/* the short form replaces the button that only led back to the home page */
+.dev-service-contact .dev-service-cta,.proj-cta > .btn{display:none}
+
+/* sticky CTA, phones only */
+.v2-sticky{position:fixed;left:0;right:0;bottom:0;z-index:30;display:none;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(17,21,36,.96);border-top:1px solid var(--line-strong);backdrop-filter:blur(12px);transform:translateY(110%);transition:transform .3s ease}
+.v2-sticky span{font-size:13px;color:var(--ink-2);line-height:1.3}
+.v2-sticky .btn{margin:0;min-height:44px;padding:0 16px;font-size:15px;flex:none}
+.v2-sticky.on{transform:none}
+/* the cookie bar wins while it is open */
+.vd-consent:not([hidden]) ~ .v2-sticky{display:none!important}
+
+@media(max-width:900px){
+  .v2-sticky{display:flex}
+  .v2-facts,.v2-steps{grid-template-columns:1fr 1fr}
+  .v2-reviews,.v2-mini-row{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .v2-facts{grid-template-columns:1fr 1fr;gap:10px}
+  .v2-fact{padding:16px}.v2-fact b{font-size:30px}.v2-fact span{font-size:13px}
+  .v2-steps{grid-template-columns:1fr}
+  .v2-hero-actions{flex-direction:column;gap:12px}
+  .v2-sticky span{display:none}
+  .v2-sticky .btn{flex:1}
+}
