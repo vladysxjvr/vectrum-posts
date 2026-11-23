@@ -1,5 +1,6 @@
 /* v2 test version of the home page: what an owner of a transport company needs before buying.
    - "Было → Стало" replaces the "Платформа · Всё работает вместе" band with the AI slider
+   - "ИИ-помощник" right after it: chat, background alerts, one link between departments
    - "Запуск за 7 дней" + what it connects to, after the features
    - cost calculator before the plans, trial terms under the plans
    - "Данные под защитой" and extra questions in the FAQ
@@ -26,6 +27,11 @@
     download: '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
     card: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/>',
     calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+    chat: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/>',
+    bell: '<path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+    link: '<circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M7.3 11 16.7 6.1M7.3 13l9.4 4.9"/>',
+    spark: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/>',
+    alert: '<path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/>',
     support: '<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/>',
   };
   const svg = n => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]}</svg>`;
@@ -33,7 +39,7 @@
   const T = {
     ru: {
       ba: {
-        eyebrow: 'Один рабочий день', title: ['Меньше звонков и таблиц.', 'Больше перевозок.'],
+        eyebrow: 'Один рабочий день', title: ['Меньше звонков и таблиц', 'Больше перевозок'],
         lead: 'Узнаёте свой день? Вот как он выглядит в Vectrum.',
         before: 'Сейчас', after: 'С Vectrum',
         rows: [
@@ -45,15 +51,34 @@
            'CMR и фото в заказе', 'Водитель прикрепляет их из приложения прямо на выгрузке.'],
           ['Сервис вспоминают в последний момент', 'Техосмотр, страховка и тахограф живут в календаре у одного человека.',
            'Напоминания заранее', 'Карточка машины сама предупредит о сроках и плановом сервисе.'],
+          ['Любой вопрос — к логисту', 'Где груз, какая машина свободна, кто в рейсе — ответ ищут по таблицам и звонкам.',
+           'Спросите ИИ-помощника', 'Ответит про груз и машину, назначит рейс и заранее предупредит о проблеме.'],
           ['Счёт уходит через неделю', 'Бухгалтерия ждёт документы, деньги приходят позже.',
            'Счёт в день выгрузки', 'Все данные по рейсу уже в системе, счёт формируется сразу.'],
         ],
         stats: [['<em>1</em> система', 'вместо почты, Excel, мессенджеров и отдельного трекинга'],
-                ['<em>0</em> звонков', '«где машина?»: позиция и время прибытия видны всей команде'],
+                ['<em>0</em> лишних звонков', '«где машина?»: позиция и время прибытия видны всей команде'],
                 ['Счёт <em>в день</em> выгрузки', 'документы рейса собираются в заказе, пока машина в пути']],
       },
+      ai: {
+        eyebrow: 'ИИ-помощник', title: ['ИИ, который связывает', 'всю компанию'],
+        lead: 'Помощник видит заказы, машины, водителей, сервис и финансы. Он работает со всеми отделами сразу: отвечает на вопросы, выполняет действия и замечает проблемы раньше вас.',
+        items: [
+          ['chat', 'Чат с ИИ', 'Спросите про груз или машину, попросите назначить машину на заказ или сделать другое действие. Помощник выполнит его в системе.'],
+          ['bell', 'Следит в фоне', 'Предупреждает за несколько дней: у машины заканчивается техосмотр, вес загрузки превышает допустимые нормы и другие риски по рейсам.'],
+          ['link', 'Связывает отделы', 'Логист, механик, бухгалтерия и владелец работают с одними данными. ИИ видит всю картину и подсказывает каждому своё.'],
+        ],
+        chatName: 'Vectrum AI', chatNote: 'Пример диалога',
+        chat: [
+          ['me', 'Какая машина свободна завтра на загрузку в Кракове?'],
+          ['ai', 'Свободны две: <b>WE 4821K</b> (тент, 24 т) и <b>KR 7730P</b> (рефрижератор). Назначить WE 4821K на заказ #2148?'],
+          ['me', 'Да, назначь'],
+          ['ai', 'Готово. Водитель уже видит заказ в приложении.'],
+        ],
+        alerts: ['Через 5 дней заканчивается техосмотр у KR 7730P', 'Заказ #2151: 25,4 т — больше допустимого для прицепа (24 т)'],
+      },
       launch: {
-        eyebrow: 'Внедрение', title: ['Запуск за 7 дней.', 'Без остановки перевозок.'],
+        eyebrow: 'Внедрение', title: ['Запуск за 7 дней', 'Без остановки перевозок'],
         lead: 'Переход идёт параллельно с текущей работой. Поможем перенести данные и обучить команду.',
         steps: [
           ['День 1', 'Регистрация', 'Создаёте компанию, приглашаете логистов, водителей и бухгалтерию с нужными правами.'],
@@ -71,12 +96,14 @@
         rate: 'Стоимость часа логиста', rateUnit: '€ / час',
         cost: 'Vectrum в месяц', perDay: 'В день на одну машину', saved: 'Время логистов в месяц', value: 'Это время стоит',
         hours: 'ч', breakEven: (m) => `Подписка окупается, если логист экономит <b>больше ${m} мин в день</b> на каждую машину.`,
-        note: 'Расчёт ориентировочный: 22 рабочих дня в месяце, цены тарифов за месяц, без НДС.',
+        note: 'Расчёт ориентировочный: 22 рабочих дня в месяце, цена за машину в месяц по уровню автопарка, без НДС.',
         cta: 'Попробовать бесплатно',
+        tiers: 'Цена за машину по размеру автопарка', perVeh: '/ машина', custom: 'Индивидуально',
+        customNote: 'Для автопарка больше 200 машин условия считаем индивидуально. Напишите нам — подготовим предложение.', contact: 'Связаться с нами',
       },
       more: 'Посмотреть, как это работает',
       how: {
-        doc: 'Как работает Vectrum Space', eyebrow: 'Как это работает', title: ['Vectrum', 'изнутри.'],
+        doc: 'Как работает Vectrum Space', eyebrow: 'Как это работает', title: ['Vectrum', 'изнутри'],
         lead: 'Настоящие экраны платформы. Так выглядит рабочий день логиста, механика и владельца: от заказа и карты до сервиса и цифр компании.',
         note: 'Экраны сняты на демо-данных: имена, компании и номера машин выдуманы. Интерфейс показан на английском, в платформе доступны и другие языки, в том числе русский.', navTitle: 'Разделы',
         ctaTitle: ['Хотите увидеть', 'на своих данных?'], ctaLead: 'Покажем Vectrum на примере вашего автопарка и поможем перенести машины, водителей и клиентов.',
@@ -98,7 +125,7 @@
       },
       trial: ['Бесплатный период', 'Без привязки карты', 'Помесячная оплата, отмена в любой момент'],
       trust: {
-        eyebrow: 'Безопасность', title: ['Ваши данные', 'под защитой.'],
+        eyebrow: 'Безопасность', title: ['Ваши данные', 'под защитой'],
         lead: 'Заказы, клиенты и цены — это ваш бизнес. Поэтому доступ к ним строго ограничен.',
         cards: [
           ['eu', 'Создано в ЕС', 'Продукт из ЕС для автомобильных перевозок. Работаем по европейским правилам и документам.'],
@@ -116,7 +143,7 @@
     },
     en: {
       ba: {
-        eyebrow: 'One working day', title: ['Fewer calls and spreadsheets.', 'More transport.'],
+        eyebrow: 'One working day', title: ['Fewer calls and spreadsheets', 'More transport'],
         lead: 'Recognise your day? This is how it looks in Vectrum.',
         before: 'Today', after: 'With Vectrum',
         rows: [
@@ -128,15 +155,34 @@
            'CMR and photos in the order', 'The driver attaches them in the app right at unloading.'],
           ['Service is remembered at the last minute', 'Inspections, insurance and tachograph live in one person’s calendar.',
            'Reminders in advance', 'The vehicle card warns about deadlines and planned service.'],
+          ['Every question goes to dispatch', 'Where the cargo is, which truck is free, who is on a trip: answers are found in sheets and calls.',
+           'Ask the AI assistant', 'It answers about cargo and trucks, assigns trips and warns about problems in advance.'],
           ['The invoice goes out a week later', 'Accounting waits for documents, money comes in later.',
            'Invoice on the day of unloading', 'All trip data is already in the system, the invoice is ready at once.'],
         ],
         stats: [['<em>1</em> system', 'instead of e-mail, Excel, messengers and a separate tracker'],
-                ['<em>0</em> calls', '“where is the truck?”: position and ETA are visible to the whole team'],
+                ['<em>0</em> extra calls', '“where is the truck?”: position and ETA are visible to the whole team'],
                 ['Invoice <em>same day</em>', 'trip documents collect in the order while the truck is on the road']],
       },
+      ai: {
+        eyebrow: 'AI assistant', title: ['AI that connects', 'the whole company'],
+        lead: 'The assistant sees orders, trucks, drivers, service and finance. It works with every department at once: answers questions, takes actions and spots problems before you do.',
+        items: [
+          ['chat', 'Chat with AI', 'Ask about cargo or a truck, ask it to assign a truck to an order or take another action. The assistant does it in the system.'],
+          ['bell', 'Watches in the background', 'Warns days ahead: a vehicle inspection is about to expire, a load is over the permitted weight, and other trip risks.'],
+          ['link', 'Connects departments', 'Dispatch, mechanics, accounting and the owner work with the same data. The AI sees the whole picture and tells each of them what matters.'],
+        ],
+        chatName: 'Vectrum AI', chatNote: 'Example conversation',
+        chat: [
+          ['me', 'Which truck is free tomorrow for loading in Kraków?'],
+          ['ai', 'Two are free: <b>WE 4821K</b> (curtainsider, 24 t) and <b>KR 7730P</b> (reefer). Assign WE 4821K to order #2148?'],
+          ['me', 'Yes, assign it'],
+          ['ai', 'Done. The driver already sees the order in the app.'],
+        ],
+        alerts: ['Inspection of KR 7730P expires in 5 days', 'Order #2151: 25.4 t is over the trailer limit (24 t)'],
+      },
       launch: {
-        eyebrow: 'Onboarding', title: ['Live in 7 days.', 'Without stopping your trucks.'],
+        eyebrow: 'Onboarding', title: ['Live in 7 days', 'Without stopping your trucks'],
         lead: 'The switch runs alongside your current work. We help move your data and train the team.',
         steps: [
           ['Day 1', 'Sign up', 'Create your company, invite dispatchers, drivers and accounting with the right permissions.'],
@@ -154,12 +200,14 @@
         rate: 'Dispatcher hourly cost', rateUnit: '€ / hour',
         cost: 'Vectrum per month', perDay: 'Per vehicle per day', saved: 'Dispatcher time per month', value: 'That time is worth',
         hours: 'h', breakEven: (m) => `The subscription pays off if a dispatcher saves <b>more than ${m} min a day</b> per vehicle.`,
-        note: 'Rough estimate: 22 working days a month, monthly plan prices, VAT excluded.',
+        note: 'Rough estimate: 22 working days a month, monthly price per vehicle by fleet size, VAT excluded.',
         cta: 'Try it free',
+        tiers: 'Price per vehicle by fleet size', perVeh: '/ vehicle', custom: 'Custom',
+        customNote: 'For fleets over 200 vehicles we set the terms individually. Write to us and we will prepare an offer.', contact: 'Contact us',
       },
       more: 'See how it works',
       how: {
-        doc: 'How Vectrum Space works', eyebrow: 'How it works', title: ['Vectrum', 'from the inside.'],
+        doc: 'How Vectrum Space works', eyebrow: 'How it works', title: ['Vectrum', 'from the inside'],
         lead: 'Real screens of the platform. This is a working day of a dispatcher, a mechanic and an owner: from the order and the map to service and company numbers.',
         note: 'Screens are taken on demo data: names, companies and plates are made up.', navTitle: 'Sections',
         ctaTitle: ['Want to see it', 'with your data?'], ctaLead: 'We will show Vectrum on your own fleet and help you move vehicles, drivers and customers.',
@@ -181,7 +229,7 @@
       },
       trial: ['Free trial', 'No card required', 'Monthly billing, cancel any time'],
       trust: {
-        eyebrow: 'Security', title: ['Your data,', 'protected.'],
+        eyebrow: 'Security', title: ['Your data,', 'protected'],
         lead: 'Orders, customers and rates are your business. Access to them is strictly limited.',
         cards: [
           ['eu', 'Made in the EU', 'An EU product for road transport. We follow European rules and documents.'],
@@ -199,6 +247,10 @@
     },
   };
   const PRICES = { standard: 25, premium: 49 };
+  // volume discount: the whole fleet pays the price of its tier, rounded to whole euros; over 200 is a custom offer
+  const TIERS = [[1, 30, 0], [31, 100, .05], [101, 200, .10]], CUSTOM = 201;
+  const tierOf = n => TIERS.findIndex(([a, b]) => n >= a && n <= b);
+  const tierPrice = (plan, i) => Math.round(PRICES[plan] * (1 - TIERS[i][2]));
 
   const t = () => T[document.documentElement.lang] || T.en;
   const head = (eyebrow, [a, b], lead, center) => `<div class="${center ? 'vs2-center' : ''}"><span class="vs2-eyebrow">${eyebrow}</span>
@@ -221,6 +273,22 @@
     </section></div>`);
   }
 
+  // AI assistant: what it does on the left, an example chat with background alerts on the right
+  function ai(x) {
+    return el(`<section class="vs2" data-vs2="ai" id="ai-assistant">
+      ${head(x.eyebrow, x.title, x.lead)}
+      <div class="vs2-ai">
+        <div class="vs2-ai-list">${x.items.map(([ic, h, p]) => `<article class="vs2-card"><span class="vs2-ico">${svg(ic)}</span>
+          <div><h3>${h}</h3><p>${p}</p></div></article>`).join('')}</div>
+        <div class="vs2-ai-chat vs2-card">
+          <div class="vs2-ai-top"><span class="vs2-ico">${svg('spark')}</span><b>${x.chatName}</b><small>${x.chatNote}</small></div>
+          <div class="vs2-ai-msgs">${x.chat.map(([who, m]) => `<p class="vs2-msg ${who}">${m}</p>`).join('')}</div>
+          <div class="vs2-ai-alerts">${x.alerts.map(a => `<p>${svg('alert')}<span>${a}</span></p>`).join('')}</div>
+        </div>
+      </div>
+    </section>`);
+  }
+
   function launch(x) {
     return el(`<section class="vs2" data-vs2="launch" id="onboarding">
       ${head(x.eyebrow, x.title, x.lead)}
@@ -238,7 +306,10 @@
       <div class="vs2-calc">
         <div class="vs2-calc-in vs2-card">
           <div class="vs2-field"><label for="vs2-fleet">${x.fleet}<output id="vs2-fleet-out">15</output></label>
-            <input class="vs2-range" id="vs2-fleet" type="range" min="1" max="150" value="15"></div>
+            <input class="vs2-range" id="vs2-fleet" type="range" min="1" max="${CUSTOM}" value="15">
+            <div class="vs2-tiers" role="group" aria-label="${x.tiers}">${TIERS.map(([a, b, d], i) => `<button type="button" data-tier="${i}" data-n="${a}">
+              <span>${a}–${b}</span><b data-tp="${i}"></b>${d ? `<em>−${d * 100}%</em>` : ''}</button>`).join('')}<button type="button" data-tier="custom" data-n="${CUSTOM}">
+              <span>200+</span><b>${x.custom}</b></button></div></div>
           <div class="vs2-field"><span class="vs2-lbl">${x.plan}</span>
             <div class="vs2-seg" role="group"><button type="button" data-plan="standard" aria-pressed="true">Standard · 25€</button><button type="button" data-plan="premium" aria-pressed="false">Premium · 49€</button></div></div>
           <div class="vs2-assume">
@@ -253,7 +324,8 @@
           <div class="vs2-out-row"><span>${x.saved}</span><strong data-o="hours"></strong></div>
           <div class="vs2-out-row"><span>${x.value}</span><strong data-o="value"></strong></div>
           <p class="vs2-out-note" data-o="even"></p>
-          <a class="vs2-btn" href="${REGISTER}">${x.cta}${svg('arrow')}</a>
+          <a class="vs2-btn" data-o="cta" href="${REGISTER}">${x.cta}${svg('arrow')}</a>
+          <a class="vs2-btn" data-o="contact" href="mailto:sales@vectrumspace.eu?subject=Vectrum%20Space%20200%2B" hidden>${x.contact}${svg('arrow')}</a>
         </div>
       </div>
     </section>`);
@@ -261,10 +333,17 @@
     const money = v => new Intl.NumberFormat(lang, { style: 'currency', currency: 'EUR', maximumFractionDigits: v < 10 ? 2 : 0 }).format(v);
     let plan = 'standard';
     const num = (q, d) => { const v = parseFloat($(q).value); return isFinite(v) && v >= 0 ? v : d; };
+    const out = $('.vs2-calc-out');
     function update() {
-      const n = +$('#vs2-fleet').value, price = PRICES[plan], min = num('#vs2-min', 10), rate = num('#vs2-rate', 20) || 20;
+      const n = +$('#vs2-fleet').value, custom = n >= CUSTOM, ti = custom ? -1 : tierOf(n);
+      TIERS.forEach((_, i) => { $(`[data-tp="${i}"]`).textContent = money(tierPrice(plan, i)) + ' ' + x.perVeh; });
+      s.querySelectorAll('[data-tier]').forEach(b => b.setAttribute('aria-pressed', b.dataset.tier === (custom ? 'custom' : String(ti))));
+      $('#vs2-fleet-out').textContent = custom ? '200+' : n;
+      out.classList.toggle('is-custom', custom);
+      $('[data-o="cta"]').hidden = custom; $('[data-o="contact"]').hidden = !custom;
+      if (custom) { $('[data-o="cost"]').textContent = x.custom; $('[data-o="even"]').textContent = x.customNote; return; }
+      const price = tierPrice(plan, ti), min = num('#vs2-min', 10), rate = num('#vs2-rate', 20) || 20;
       const cost = n * price, hours = n * min * 22 / 60;
-      $('#vs2-fleet-out').textContent = n;
       $('[data-o="cost"]').textContent = money(cost);
       $('[data-o="day"]').textContent = money(price / 22);
       $('[data-o="hours"]').textContent = Math.round(hours) + ' ' + x.hours;
@@ -275,6 +354,8 @@
     s.querySelectorAll('[data-plan]').forEach(b => b.addEventListener('click', () => {
       plan = b.dataset.plan; s.querySelectorAll('[data-plan]').forEach(o => o.setAttribute('aria-pressed', o === b)); update();
     }));
+    // a tier button moves the slider to the start of that tier
+    s.querySelectorAll('[data-tier]').forEach(b => b.addEventListener('click', () => { $('#vs2-fleet').value = b.dataset.n; update(); }));
     update();
     return s;
   }
@@ -357,7 +438,9 @@
     main.querySelectorAll('[data-vs2]').forEach(n => n.remove());
     main.dataset.vs2 = lang;
     const x = t();
-    band.after(beforeAfter(x.ba));
+    const ba = beforeAfter(x.ba);
+    band.after(ba);
+    ba.after(ai(x.ai));
     // "how it works" page with the platform screens, under the feature cards
     caps.appendChild(el(`<div class="vs2-more" data-vs2="more"><a class="vs2-btn" href="/how-it-works">${x.more}${svg('arrow')}</a></div>`));
     caps.after(launch(x.launch));
