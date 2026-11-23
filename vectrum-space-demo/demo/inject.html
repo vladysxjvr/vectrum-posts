@@ -100,13 +100,10 @@
     header[class*="__header"] > nav { order: 0 !important; margin: 0 auto !important; }
   }
 
-  /* closing banner "Каждое движение имеет значение с Vectrum": on phones the big mark sat top-left and its
-     translucent diagonal ran under the heading; the faint second mark overlapped it from the right. The mark moves
-     to the bottom-right corner under the buttons (card gets room for it), the second mark is hidden. */
+  /* closing banner "Каждое движение имеет значение с Vectrum": on phones the faint second mark (opacity .35) hung
+     top-right over the heading. It moves to the bottom-right corner; the big mark stays as on the live site. */
   @media (max-width: 900px) {
-    section[class*="__banner"] { padding-bottom: 170px !important; }
-    section[class*="__banner"] [class*="__bannerLogo"]:not([class*="Secondary"]) { top: auto !important; left: auto !important; right: -64px !important; bottom: -96px !important; width: 240px !important; height: 252px !important; }
-    section[class*="__banner"] [class*="__bannerLogoSecondary"] { display: none !important; }
+    section[class*="__banner"] [class*="__bannerLogoSecondary"] { top: auto !important; left: auto !important; right: -80px !important; bottom: -120px !important; }
   }
 
   /* hero card "live trip" (demo/hero-trip.js): the React picture, CO2 plate and numbers are hidden, not removed */
