@@ -1,12 +1,13 @@
 /* Hero card "live trip" instead of the static platform picture (dots, CO2 plate, two numbers).
    The card shows the route the hero map (demo/hero-map.js) is drawing right now as one order going through
    its life: accepted → loading → on the road (truck moves on the map and on the card) → unloading + CMR → invoice.
-   A trip lasts at least 4 map routes (4 × 2.4 s) and only uses routes the headline does not cover.
+   A trip lasts at least 6 map routes (6 × 2.4 s) and only uses routes the headline does not cover.
    Roll back: drop the script tag in inject.html; the React card under it is only hidden, never removed. */
 (function () {
-  const EVERY = 4;
-  // seconds from the start of the map route: the map draws the line 0.8–2.3 s, then the truck goes
-  const AT = { loading: 0.5, road: 2.3, unload: 7.4, invoice: 8.4 };
+  const EVERY = 6;
+  // seconds from the start of the map route: the map draws the line 0.8–2.3 s, then the truck goes (slowly,
+  // user's wish); the map keeps a route 14.4 s + 1.6 s fade, so the truck arrives while its line is still there
+  const AT = { loading: 0.5, road: 2.3, unload: 11.3, invoice: 12.6 };
   const PLATES = ['WE 4821K', 'KR 7730P', 'PO 5512R', 'WR 1904T', 'GD 3367M', 'DW 8045S'];
   const T = {
     ru: { live: 'Рейс онлайн', note: 'Пример рейса · демо-данные', order: 'Заказ', left: 'Осталось', eta: 'Прибытие', km: 'км',
@@ -40,16 +41,17 @@
 
   function build() {
     box = document.createElement('div'); box.className = 'vs-trip'; box.setAttribute('aria-hidden', 'true');
-    box.innerHTML = `<div class="vs-trip-top"><span class="vs-trip-live"><i></i>${x.live}</span><span>${x.note}</span></div>
+    // no <i> inside: the site styles every `__network i` as a 6px green dot
+    box.innerHTML = `<div class="vs-trip-top"><span class="vs-trip-live"><span class="vs-trip-dot"></span>${x.live}</span><span>${x.note}</span></div>
       <div class="vs-trip-main">
         <div class="vs-trip-id" data-swap><small>${x.order} <b data-k="no"></b></small><strong><span data-k="a"></span>${arrow}<span data-k="b"></span></strong>
           <span class="vs-trip-truck">${truck}<span data-k="plate"></span> · <span data-k="cargo"></span></span></div>
         <div class="vs-trip-road">
           <div class="vs-trip-ends" data-swap><span data-k="a"></span><span data-k="b"></span></div>
-          <div class="vs-trip-track"><i class="vs-trip-fill"></i><b class="vs-trip-car">${truck}</b></div>
+          <div class="vs-trip-track"><span class="vs-trip-fill"></span><b class="vs-trip-car">${truck}</b></div>
           <div class="vs-trip-nums"><span>${x.left} <b data-k="left"></b></span><span>${x.eta} <b data-k="eta"></b></span></div>
         </div>
-        <ol class="vs-trip-steps">${x.steps.map(s => `<li><i></i><span>${s}</span></li>`).join('')}</ol>
+        <ol class="vs-trip-steps">${x.steps.map(s => `<li><span class="vs-trip-dot"></span><span>${s}</span></li>`).join('')}</ol>
         <div class="vs-trip-now" data-k="now"></div>
       </div>`;
     card.appendChild(box);
