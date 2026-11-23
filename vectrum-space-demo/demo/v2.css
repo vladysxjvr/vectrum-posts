@@ -54,8 +54,9 @@ main > [class*="__ecosystemBand"] { display: none !important; }
 .vs2-stat span { display: block; margin-top: 8px; font-size: 14px; line-height: 1.55; color: var(--muted); }
 
 /* ---------- 1b. AI assistant ---------- */
-.vs2-ai { margin-top: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
-.vs2-ai-list { display: grid; gap: 12px; }
+/* both columns end on one line: the three cards share the chat's height evenly */
+.vs2-ai { margin-top: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: stretch; }
+.vs2-ai-list { display: grid; grid-auto-rows: 1fr; gap: 12px; }
 .vs2-ai-list article { padding: 22px 24px; display: flex; gap: 16px; align-items: flex-start; }
 .vs2-ai-list h3 { margin: 2px 0 0; font-size: 17px; font-weight: 700; color: var(--txt); }
 .vs2-ai-list p { margin: 6px 0 0; font-size: 14px; line-height: 1.65; color: var(--muted); }
